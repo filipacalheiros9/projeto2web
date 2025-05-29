@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Gerir Funcionários</title>
+    <title>Gerir Stock</title>
     <style>
         body {
             margin: 0;
@@ -108,6 +108,7 @@
 </head>
 <body>
 
+<!-- Sidebar -->
 <div id="sidebar" class="sidebar">
     <a th:href="@{/gerente/home}">Início</a>
     <a th:href="@{/gerente/perfil}">Perfil</a>
@@ -124,20 +125,18 @@
 </div>
 
 <div id="content" class="content">
-    <h1>Gerir Funcionários</h1>
+    <h1>Gestão de Stock</h1>
     <p>Escolha uma ação abaixo:</p>
 
     <div class="button-container">
-        <form th:action="@{/gerente/funcionarios/adicionar}" method="get">
-            <button type="submit">Adicionar Funcionário</button>
+        <form th:action="@{/encomendar}" method="get">
+            <button type="submit">Encomendar Material</button>
         </form>
-
-        <form th:action="@{/gerente/funcionarios/remover}" method="get">
-            <button type="submit">Remover Funcionário</button>
+        <form th:action="@{/cancelar-encomenda}" method="get">
+            <button type="submit">Cancelar Encomenda</button>
         </form>
-
-        <form th:action="@{/gerente/funcionarios/editar}" method="get">
-            <button type="submit">Editar Funcionário</button>
+        <form th:action="@{/listar-encomenda}" method="get">
+            <button type="submit">Listar Encomenda</button>
         </form>
     </div>
 </div>
