@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listar Tipos de Projeto</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        .topbar {
+            background-color: #7ba3d8;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .menu-icon { font-size: 24px; cursor: pointer; }
+        .logo { height: 40px; }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #ffffff;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+            transition: left 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar.open { left: 0; }
+
+        .sidebar a {
+            display: block;
+            margin-bottom: 15px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .sidebar a:hover { color: #7ba3d8; }
+
+        .content {
+            padding: 40px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .content.shifted { margin-left: 250px; }
+
+        .table-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #7ba3d8;
+            color: white;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <span class="menu-icon" onclick="toggleSidebar()">☰</span>
+    <img th:src="@{/images/logo.png}" alt="Logo" class="logo">
+</div>
+
+<div id="sidebar" class="sidebar">
+    <a th:href="@{/gerente/home}">Início</a>
+    <a th:href="@{/gerente/perfil}">Perfil</a>
+    <a th:href="@{/gerente/funcionarios}">Funcionários</a>
+    <a th:href="@{/gerente/stock}">Stock</a>
+    <a th:href="@{/gerente/fornecedor}">Fornecedor</a>
+    <a th:href="@{/gerente/projetos}">Projetos</a>
+    <a th:href="@{/funcionario/logout}" style="color: red;">Terminar sessão</a>
+</div>
+
+<div id="content" class="content">
+    <div class="table-container">
+        <h2>Tipos de Projeto</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tipo</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="tipo : ${tiposProjetos}">
+                <td th:text="${tipo.id}"></td>
+                <td th:text="${tipo.tipoprojeto}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('content').classList.toggle('shifted');
+    }
+</script>
+
+</body>
+</html>

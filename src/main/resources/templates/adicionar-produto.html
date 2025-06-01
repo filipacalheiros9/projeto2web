@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <title>Editar Perfil</title>
+    <meta charset="UTF-8">
+    <title>Adicionar Produto</title>
     <style>
         body {
             margin: 0;
@@ -17,13 +17,9 @@
             justify-content: space-between;
             color: white;
         }
-        .menu-icon {
-            font-size: 24px;
-            cursor: pointer;
-        }
-        .logo {
-            height: 40px;
-        }
+        .menu-icon { font-size: 24px; cursor: pointer; }
+        .logo { height: 40px; }
+
         .sidebar {
             position: fixed;
             top: 0;
@@ -37,9 +33,8 @@
             transition: left 0.3s ease;
             z-index: 1000;
         }
-        .sidebar.open {
-            left: 0;
-        }
+
+        .sidebar.open { left: 0; }
         .sidebar a {
             display: block;
             margin-bottom: 15px;
@@ -47,56 +42,68 @@
             text-decoration: none;
             font-weight: 500;
         }
-        .sidebar a:hover {
-            color: #7ba3d8;
-        }
+
+        .sidebar a:hover { color: #7ba3d8; }
+
         .content {
+            display: flex;
+            justify-content: center;
             padding: 40px;
-            margin-left: 0;
             transition: margin-left 0.3s ease;
         }
-        .content.shifted {
-            margin-left: 250px;
-        }
-        @media (max-width: 600px) {
-            .content.shifted {
-                margin-left: 0;
-            }
-        }
-        .error {
-            color: red;
-            margin-bottom: 15px;
-        }
-        .success {
-            color: green;
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-top: 10px;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-        input, select {
+
+        .form-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 500px;
             width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
         button {
-            margin-top: 20px;
             padding: 10px 20px;
             background-color: #7ba3d8;
-            border: none;
             color: white;
-            font-weight: 600;
+            border: none;
+            border-radius: 4px;
             cursor: pointer;
         }
+
         button:hover {
-            background-color: #5a85c1;
+            background-color: #5a85c4;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
+
 <div id="sidebar" class="sidebar">
     <a th:href="@{/gerente/home}">Início</a>
     <a th:href="@{/gerente/perfil}">Perfil</a>
@@ -106,30 +113,34 @@
     <a th:href="@{/gerente/projetos}">Projetos</a>
     <a th:href="@{/funcionario/logout}" style="color: red;">Terminar sessão</a>
 </div>
+
 <div class="topbar">
     <span class="menu-icon" onclick="toggleSidebar()">☰</span>
-    <img th:src="@{/images/logo.png}" alt="Logo" class="logo" />
+    <img th:src="@{/images/logo.png}" alt="Logo" class="logo">
 </div>
+
 <div id="content" class="content">
-    <h1>Editar Perfil</h1>
-    <div th:if="${erro}" class="error" th:text="${erro}"></div>
-    <div th:if="${sucesso}" class="success" th:text="${sucesso}"></div>
-    <form th:action="@{/gerente/perfil}" th:object="${funcionario}" method="post">
-        <label for="nomefuncionario">Nome</label>
-        <input type="text" id="nomefuncionario" th:field="*{nomefuncionario}" />
-        <label for="username">Nome de utilizador</label>
-        <input type="text" id="username" th:field="*{username}" />
-        <label for="cargo">Cargo</label>
-        <select id="cargo" name="idtipofunc.id">
-            <option th:each="cargo : ${cargos}" th:text="${cargo}"
-                    th:value="${cargo == 'Gerente' ? 1 : 2}"
-                    th:selected="${(cargo == 'Gerente' and funcionario.idtipofunc.id == 1)
-                                  or (cargo == 'Funcionário' and funcionario.idtipofunc.id == 2)}">
-            </option>
-        </select>
-        <button type="submit">Guardar</button>
-    </form>
+    <div class="form-container">
+        <h2>Adicionar Produto</h2>
+
+        <div th:if="${mensagemSucesso}" class="alert-success" th:text="${mensagemSucesso}"></div>
+        <div th:if="${mensagemErro}" class="alert-error" th:text="${mensagemErro}"></div>
+
+        <form th:action="@{/adicionar-produto}" method="post">
+            <label for="nome">Nome do Produto:</label>
+            <input type="text" id="nome" name="nome" required>
+
+            <label for="preco">Preço (€):</label>
+            <input type="number" step="0.01" id="preco" name="preco" required>
+
+            <label for="quantidade">Quantidade:</label>
+            <input type="number" id="quantidade" name="quantidade" required>
+
+            <button type="submit">Adicionar</button>
+        </form>
+    </div>
 </div>
+
 <script>
     function toggleSidebar() {
         const sidebar = document.getElementById('sidebar');
@@ -138,5 +149,6 @@
         content.classList.toggle('shifted');
     }
 </script>
+
 </body>
 </html>

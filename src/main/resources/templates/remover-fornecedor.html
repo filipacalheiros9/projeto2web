@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Remover Fornecedor</title>
+    <style>
+        body {
+            margin: 0; font-family: Arial, sans-serif; background: #f4f6f8;
+        }
+        .topbar {
+            background-color: #7ba3d8; padding: 15px 20px; color: white;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .menu-icon { font-size: 24px; cursor: pointer; }
+        .logo { height: 40px; }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #ffffff;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+            transition: left 0.3s ease;
+            z-index: 1000;
+        }
+        .sidebar.open { left: 0; }
+        .sidebar a {
+            display: block; margin-bottom: 15px; text-decoration: none;
+            color: #333; font-weight: 500;
+        }
+        .sidebar a:hover { color: #7ba3d8; }
+        .content {
+            padding: 40px; transition: margin-left 0.3s ease;
+        }
+        .content.shifted { margin-left: 250px; }
+        .form-container {
+            background: white; padding: 30px; border-radius: 8px;
+            max-width: 800px; margin: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+        }
+        th, td {
+            padding: 10px; border-bottom: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px; background: #d9534f; color: white;
+            border: none; border-radius: 4px; cursor: pointer;
+        }
+        button:hover { background: #c9302c; }
+        .alert-success, .alert-error {
+            padding: 10px; border-radius: 5px; margin-bottom: 15px;
+        }
+        .alert-success {
+            background: #d4edda; color: #155724; border: 1px solid #c3e6cb;
+        }
+        .alert-error {
+            background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <span class="menu-icon" onclick="toggleSidebar()">☰</span>
+    <img th:src="@{/images/logo.png}" class="logo" alt="Logo">
+</div>
+
+<div id="sidebar" class="sidebar">
+    <a th:href="@{/gerente/home}">Início</a>
+    <a th:href="@{/gerente/perfil}">Perfil</a>
+    <a th:href="@{/gerente/funcionarios}">Funcionários</a>
+    <a th:href="@{/gerente/stock}">Stock</a>
+    <a th:href="@{/gerente/fornecedor}">Fornecedor</a>
+    <a th:href="@{/gerente/projetos}">Projetos</a>
+    <a th:href="@{/funcionario/logout}" style="color:red;">Terminar Sessão</a>
+</div>
+
+<div id="content" class="content">
+    <div class="form-container">
+        <h2>Remover Fornecedor</h2>
+
+        <div th:if="${mensagemSucesso}" class="alert-success" th:text="${mensagemSucesso}"></div>
+        <div th:if="${mensagemErro}" class="alert-error" th:text="${mensagemErro}"></div>
+
+        <form th:action="@{/remover-fornecedor}" method="post">
+            <table>
+                <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>NIF</th>
+                    <th>Telefone</th>
+                    <th>Rua</th>
+                    <th>Porta</th>
+                    <th>Código Postal</th>
+                    <th>Remover</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="f : ${fornecedores}">
+                    <td th:text="${f.nomefornecedor}">Nome</td>
+                    <td th:text="${f.niffornecedor}">NIF</td>
+                    <td th:text="${f.telefonefornecedor}">Telefone</td>
+                    <td th:text="${f.ruafornecedor}">Rua</td>
+                    <td th:text="${f.nportafornecedor}">Porta</td>
+                    <td th:text="${f.codpostalforn.codpostalfornecedor}">CP</td>
+                    <td>
+                        <button type="submit" name="id" th:value="${f.id}">Remover</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+<script>
+    function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("open");
+        document.getElementById("content").classList.toggle("shifted");
+    }
+</script>
+
+</body>
+</html>

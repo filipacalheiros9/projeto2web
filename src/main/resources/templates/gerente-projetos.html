@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Gerir Stock</title>
+    <title>Gestão de Projetos</title>
     <style>
         body {
             margin: 0;
@@ -19,14 +19,8 @@
             color: white;
         }
 
-        .menu-icon {
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        .logo {
-            height: 40px;
-        }
+        .menu-icon { font-size: 24px; cursor: pointer; }
+        .logo { height: 40px; }
 
         .sidebar {
             position: fixed;
@@ -42,21 +36,17 @@
             z-index: 1000;
         }
 
-        .sidebar.open {
-            left: 0;
-        }
+        .sidebar.open { left: 0; }
 
         .sidebar a {
             display: block;
             margin-bottom: 15px;
-            color: #333;
             text-decoration: none;
+            color: #333;
             font-weight: 500;
         }
 
-        .sidebar a:hover {
-            color: #7ba3d8;
-        }
+        .sidebar a:hover { color: #7ba3d8; }
 
         .content {
             padding: 40px;
@@ -64,9 +54,7 @@
             transition: margin-left 0.3s ease;
         }
 
-        .content.shifted {
-            margin-left: 250px;
-        }
+        .content.shifted { margin-left: 250px; }
 
         .button-container {
             margin-top: 30px;
@@ -94,16 +82,6 @@
             background: #6b93c8;
             transform: translateY(-2px);
         }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        @media (max-width: 600px) {
-            .content.shifted {
-                margin-left: 0;
-            }
-        }
     </style>
 </head>
 <body>
@@ -119,46 +97,34 @@
     <a th:href="@{/funcionario/logout}" style="color: red;">Terminar sessão</a>
 </div>
 
+<!-- Topbar -->
 <div class="topbar">
     <span class="menu-icon" onclick="toggleSidebar()">☰</span>
     <img th:src="@{/images/logo.png}" alt="Logo" class="logo">
 </div>
 
+<!-- Content -->
 <div id="content" class="content">
-    <h1>Gestão de Stock</h1>
+    <h1>Gestão de Projetos</h1>
     <p>Escolha uma ação abaixo:</p>
 
     <div class="button-container">
-        <form th:action="@{/encomendar}" method="get">
-            <button type="submit">Encomendar Material</button>
+        <form th:action="@{/adicionar-tipo-projeto}" method="get">
+            <button type="submit">Adicionar Tipo de Projeto</button>
         </form>
-        <form th:action="@{/cancelar-encomenda}" method="get">
-            <button type="submit">Cancelar Encomenda</button>
+        <form th:action="@{/remover-tipo-projeto}" method="get">
+            <button type="submit">Remover Tipo de Projeto</button>
         </form>
-        <form th:action="@{/listar-encomenda}" method="get">
-            <button type="submit">Listar Encomenda</button>
-        </form>
-        <form th:action="@{/listar-stock}" method="get">
-            <button type="submit">Listar Stock</button>
-        </form>
-        <form th:action="@{/adicionar-produto}" method="get">
-            <button type="submit">Adicionar Produto</button>
-        </form>
-        <form th:action="@{/remover-produto}" method="get">
-            <button type="submit">Remover Produto</button>
-        </form>
-        <form th:action="@{/editar-produto}" method="get">
-            <button type="submit">Editar Produto</button>
+        <form th:action="@{/listar-tipos-projetos}" method="get">
+            <button type="submit">Listar Tipos de Projetos</button>
         </form>
     </div>
 </div>
 
 <script>
     function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        const content = document.getElementById('content');
-        sidebar.classList.toggle('open');
-        content.classList.toggle('shifted');
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('content').classList.toggle('shifted');
     }
 </script>
 

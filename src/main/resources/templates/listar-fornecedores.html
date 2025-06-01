@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Fornecedores</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        .topbar {
+            background-color: #7ba3d8;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+        }
+
+        .menu-icon { font-size: 24px; cursor: pointer; }
+        .logo { height: 40px; }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #ffffff;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+            transition: left 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar.open { left: 0; }
+
+        .sidebar a {
+            display: block;
+            margin-bottom: 15px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .sidebar a:hover { color: #7ba3d8; }
+
+        .content {
+            padding: 40px;
+            margin-left: 0;
+            transition: margin-left 0.3s ease;
+        }
+
+        .content.shifted { margin-left: 250px; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #7ba3d8;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            td {
+                padding-left: 50%;
+                position: relative;
+            }
+
+            td::before {
+                position: absolute;
+                left: 10px;
+                width: 45%;
+                white-space: nowrap;
+                font-weight: bold;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <span class="menu-icon" onclick="toggleSidebar()">☰</span>
+    <img th:src="@{/images/logo.png}" alt="Logo" class="logo">
+</div>
+
+<div id="sidebar" class="sidebar">
+    <a th:href="@{/gerente/home}">Início</a>
+    <a th:href="@{/gerente/perfil}">Perfil</a>
+    <a th:href="@{/gerente/funcionarios}">Funcionários</a>
+    <a th:href="@{/gerente/stock}">Stock</a>
+    <a th:href="@{/gerente/fornecedor}">Fornecedor</a>
+    <a th:href="@{/gerente/projetos}">Projetos</a>
+    <a th:href="@{/funcionario/logout}" style="color: red;">Terminar sessão</a>
+</div>
+
+<div id="content" class="content">
+    <h2>Lista de Fornecedores</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>NIF</th>
+            <th>Telefone</th>
+            <th>Rua</th>
+            <th>Porta</th>
+            <th>Código Postal</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="f : ${fornecedores}">
+            <td th:text="${f.nomefornecedor}">Nome</td>
+            <td th:text="${f.niffornecedor}">NIF</td>
+            <td th:text="${f.telefonefornecedor}">Telefone</td>
+            <td th:text="${f.ruafornecedor}">Rua</td>
+            <td th:text="${f.nportafornecedor}">Porta</td>
+            <td th:text="${f.codpostalforn.codpostalfornecedor}">Código Postal</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("open");
+        document.getElementById("content").classList.toggle("shifted");
+    }
+</script>
+
+</body>
+</html>
