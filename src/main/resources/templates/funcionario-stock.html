@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestão de Stock</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        .topbar {
+            background-color: #7ba3d8;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+        }
+
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #ffffff;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+            transition: left 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar a {
+            display: block;
+            margin-bottom: 15px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .sidebar a:hover {
+            color: #7ba3d8;
+        }
+
+        .content {
+            padding: 40px;
+            margin-left: 0;
+            transition: margin-left 0.3s ease;
+        }
+
+        .content.shifted {
+            margin-left: 250px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 500;
+            background-color: #7ba3d8;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #6b93c8;
+        }
+
+        @media (max-width: 600px) {
+            .content.shifted {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div id="sidebar" class="sidebar">
+    <a th:href="@{/funcionario2/home}">Início</a>
+    <a th:href="@{/funcionario2/stock}">Stock</a>
+    <a th:href="@{/funcionario2/cliente}">Cliente</a>
+    <a th:href="@{/funcionario/logout}" style="color: red;">Terminar sessão</a>
+</div>
+
+<div class="topbar">
+    <span class="menu-icon" onclick="toggleSidebar()">☰</span>
+    <img th:src="@{/images/logo.png}" alt="Logo" class="logo">
+</div>
+
+<div id="content" class="content">
+    <h1>Gestão de Stock</h1>
+
+    <form th:action="@{/funcionario2/stock/listar}" method="get">
+        <button type="submit">Listar Stock</button>
+    </form>
+</div>
+
+<script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const content = document.getElementById('content');
+        sidebar.classList.toggle('open');
+        content.classList.toggle('shifted');
+    }
+</script>
+
+</body>
+</html>

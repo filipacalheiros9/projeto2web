@@ -2,20 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Gestão de Projetos</title>
+    <title>Listar Tipos de Impressões</title>
     <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #f4f6f8;
+            background-color: #f4f6f8;
         }
 
         .topbar {
             background-color: #7ba3d8;
             padding: 15px 20px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
             color: white;
         }
 
@@ -50,43 +50,42 @@
 
         .content {
             padding: 40px;
-            margin-left: 0;
             transition: margin-left 0.3s ease;
         }
 
         .content.shifted { margin-left: 250px; }
 
-        .button-container {
-            margin-top: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            max-width: 300px;
+        .box {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        button {
-            width: 100%;
-            padding: 15px 25px;
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            background: #f0f4f8;
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border-radius: 4px;
             font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            border: none;
-            border-radius: 10px;
-            background: #7ba3d8;
-            color: white;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        button:hover {
-            background: #6b93c8;
-            transform: translateY(-2px);
-        }
     </style>
 </head>
 <body>
 
-<!-- Sidebar -->
+<div class="topbar">
+    <span class="menu-icon" onclick="toggleSidebar()">☰</span>
+    <img th:src="@{/images/logo.png}" alt="Logo" class="logo">
+</div>
+
 <div id="sidebar" class="sidebar">
     <a th:href="@{/gerente/home}">Início</a>
     <a th:href="@{/gerente/perfil}">Perfil</a>
@@ -94,39 +93,16 @@
     <a th:href="@{/gerente/stock}">Stock</a>
     <a th:href="@{/gerente/fornecedor}">Fornecedor</a>
     <a th:href="@{/gerente/projetos}">Projetos</a>
+    <a th:href="@{/gerente/impressoes}">Impressões</a>
     <a th:href="@{/funcionario/logout}" style="color: red;">Terminar sessão</a>
 </div>
 
-<!-- Topbar -->
-<div class="topbar">
-    <span class="menu-icon" onclick="toggleSidebar()">☰</span>
-    <img th:src="@{/images/logo.png}" alt="Logo" class="logo">
-</div>
-
-<!-- Content -->
 <div id="content" class="content">
-    <h1>Gestão de Projetos</h1>
-    <p>Escolha uma ação abaixo:</p>
-
-    <div class="button-container">
-        <form th:action="@{/adicionar-tipo-projeto}" method="get">
-            <button type="submit">Adicionar Tipo de Projeto</button>
-        </form>
-        <form th:action="@{/remover-tipo-projeto}" method="get">
-            <button type="submit">Remover Tipo de Projeto</button>
-        </form>
-        <form th:action="@{/listar-tipos-projetos}" method="get">
-            <button type="submit">Listar Tipos de Projetos</button>
-        </form>
-        <form th:action="@{/adicionar-tipo-impressao}" method="get">
-            <button type="submit">Adicionar Tipo Impressão</button>
-        </form>
-        <form th:action="@{/remover-tipo-impressao}" method="get">
-            <button type="submit">Remover Tipo Impressão</button>
-        </form>
-        <form th:action="@{/listar-tipos-impressoes}" method="get">
-            <button type="submit">Listar Tipos Impressões</button>
-        </form>
+    <div class="box">
+        <h2>Tipos de Impressões</h2>
+        <ul>
+            <li th:each="tipo : ${tiposImpressao}" th:text="${tipo.tipoimpressao}"></li>
+        </ul>
     </div>
 </div>
 

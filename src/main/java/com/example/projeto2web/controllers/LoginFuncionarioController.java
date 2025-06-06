@@ -36,21 +36,10 @@ public class LoginFuncionarioController {
             if (f.getIdtipofunc().getId() == 1) {
                 return "redirect:/gerente/home";
             } else {
-                return "redirect:/funcionario/home";
+                return "redirect:/funcionario2/home";
             }
         }
 
         return "redirect:/funcionario?erro=true";
     }
-
-    @GetMapping("/home")
-    public String homeFuncionario(HttpSession session) {
-        Funcionario f = SessaoUtilizador.getFuncionario(session);
-        if (f == null) {
-            return "redirect:/funcionario";
-        }
-        return "funcionario";
-    }
-
- 
 }

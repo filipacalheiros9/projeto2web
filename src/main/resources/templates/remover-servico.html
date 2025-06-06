@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Remover Serviço</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        .topbar {
+            background-color: #7ba3d8;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+        }
+
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #ffffff;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+            transition: left 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar a {
+            display: block;
+            margin-bottom: 15px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .sidebar a:hover {
+            color: #7ba3d8;
+        }
+
+        .content {
+            padding: 40px;
+            margin-left: 0;
+            transition: margin-left 0.3s ease;
+        }
+
+        .content.shifted {
+            margin-left: 250px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #e8eef7;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background-color: #f1f7ff;
+        }
+
+        .form-inline {
+            display: flex;
+            align-items: center;
+            margin-top: 30px;
+            gap: 10px;
+        }
+
+        select, button {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #7ba3d8;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #6b93c8;
+        }
+
+        .success {
+            color: green;
+            margin-top: 20px;
+        }
+
+        .error {
+            color: red;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .content.shifted {
+                margin-left: 0;
+            }
+
+            .form-inline {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div id="sidebar" class="sidebar">
+    <a th:href="@{/funcionario2/home}">Início</a>
+    <a th:href="@{/funcionario2/stock}">Stock</a>
+    <a th:href="@{/funcionario2/cliente}">Cliente</a>
+    <a th:href="@{/funcionario/logout}" style="color: red;">Terminar sessão</a>
+</div>
+
+<div class="topbar">
+    <span class="menu-icon" onclick="toggleSidebar()">☰</span>
+    <img th:src="@{/images/logo.png}" alt="Logo" class="logo">
+</div>
+
+<div id="content" class="content">
+    <h1>Remover Serviço</h1>
+
+    <form th:action="@{/funcionario2/cliente/remover-servico}" method="post" class="form-inline">
+        <select name="servicoId" required>
+            <option th:each="s : ${servicos}" th:value="${s.id}"
+                    th:text="'ID: ' + ${s.id} + ' | Projeto: ' + ${s.idproj.temaprojeto} + ' | Funcionário: ' + ${s.idfuncio.nomefuncionario}">
+            </option>
+        </select>
+        <button type="submit">Remover Serviço</button>
+    </form>
+
+    <p th:if="${mensagemSucesso}" class="success" th:text="${mensagemSucesso}"></p>
+    <p th:if="${mensagemErro}" class="error" th:text="${mensagemErro}"></p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Data</th>
+            <th>Preço</th>
+            <th>Estado</th>
+            <th>Projeto</th>
+            <th>Funcionário</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="s : ${servicos}">
+            <td th:text="${s.id}"></td>
+            <td th:text="${s.dataservico}"></td>
+            <td th:text="${s.precoservico} + ' €'"></td>
+            <td th:text="${s.estadoservico}"></td>
+            <td th:text="${s.idproj.temaprojeto}"></td>
+            <td th:text="${s.idfuncio.nomefuncionario}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const content = document.getElementById('content');
+        sidebar.classList.toggle('open');
+        content.classList.toggle('shifted');
+    }
+</script>
+
+</body>
+</html>
