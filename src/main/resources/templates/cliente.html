@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Gestão de Clientes</title>
+    <title>Painel do Cliente</title>
     <style>
         body {
             margin: 0;
@@ -68,31 +68,6 @@
             margin-left: 250px;
         }
 
-        .button-container {
-            margin-top: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            max-width: 300px;
-        }
-
-        button {
-            width: 100%;
-            padding: 15px 25px;
-            font-size: 16px;
-            font-weight: 500;
-            background-color: #7ba3d8;
-            border: none;
-            border-radius: 10px;
-            color: white;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #6b93c8;
-        }
-
         @media (max-width: 600px) {
             .content.shifted {
                 margin-left: 0;
@@ -103,10 +78,10 @@
 <body>
 
 <div id="sidebar" class="sidebar">
-    <a th:href="@{/funcionario2/home}">Início</a>
-    <a th:href="@{/funcionario2/stock}">Stock</a>
-    <a th:href="@{/funcionario2/cliente}">Cliente</a>
-    <a th:href="@{/funcionario/logout}" style="color: red;">Terminar sessão</a>
+    <a th:href="@{/cliente/home}">Início</a>
+    <a th:href="@{/cliente/perfil}">Perfil</a>
+    <a th:href="@{/cliente/projetos}">Projetos</a>
+    <a th:href="@{/cliente/logout}" style="color: red;">Terminar sessão</a>
 </div>
 
 <div class="topbar">
@@ -115,31 +90,8 @@
 </div>
 
 <div id="content" class="content">
-    <h1>Gestão de Clientes</h1>
-
-    <div class="button-container">
-        <form th:action="@{/funcionario2/cliente/listar-projetos}" method="get">
-            <button type="submit">Listar Projetos</button>
-        </form>
-        <form th:action="@{/funcionario2/cliente/adicionar-servico}" method="get">
-            <button type="submit">Adicionar Serviço</button>
-        </form>
-        <form th:action="@{/funcionario2/cliente/remover-servico}" method="get">
-            <button type="submit">Remover Serviço</button>
-        </form>
-        <form th:action="@{/funcionario2/cliente/editar-servico}" method="get">
-            <button type="submit">Editar Serviço</button>
-        </form>
-        <form th:action="@{/funcionario2/cliente/listar-servicos}" method="get">
-            <button type="submit">Listar Serviços</button>
-        </form>
-        <form th:action="@{/funcionario2/cliente/registar-pagamento-cliente}" method="get">
-            <button type="submit">Registar Pagamento</button>
-        </form>
-        <form th:action="@{/funcionario2/cliente/listar-pagamentos-clientes}" method="get">
-            <button type="submit">Listar Pagamentos</button>
-        </form>
-    </div>
+    <h1>Bem-vindo ao Painel do Cliente</h1>
+    <p>Escolha uma opção no menu lateral.</p>
 </div>
 
 <script>

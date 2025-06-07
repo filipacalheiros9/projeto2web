@@ -23,4 +23,9 @@ public class HomeController {
         session.invalidate();
         return "redirect:/";
     }
+
+    @GetMapping("/cliente")
+    public String loginCliente() {
+        return "login-cliente";
+    }
 }

@@ -120,6 +120,48 @@ public class FuncionarioClienteController {
         return listarParaRemover(model, session);
     }
 
+    @GetMapping("/editar-servico")
+    public String listarParaEditar(Model model, HttpSession session) {
+        if (SessaoUtilizador.getFuncionario(session) == null) return "redirect:/funcionario";
+
+        model.addAttribute("servicos", servicoRepo.findAll());
+        model.addAttribute("projetos", projetoRepo.findAll());
+        model.addAttribute("funcionarios", funcionarioRepo.findAll());
+        model.addAttribute("tiposImpressao", tipoRepo.findAll());
+        return "editar-servico";
+    }
+
+    @PostMapping("/editar-servico")
+    public String editarServico(@RequestParam("servicoId") int servicoId,
+                                @RequestParam("estado") String estado,
+                                @RequestParam(value = "preco", required = false) String precoStr,
+                                Model model, HttpSession session) {
+        if (SessaoUtilizador.getFuncionario(session) == null) return "redirect:/funcionario";
+
+        try {
+            Optional<Servico> opt = servicoRepo.findById(servicoId);
+            if (opt.isPresent()) {
+                Servico servico = opt.get();
+                servico.setEstadoservico(estado);
+
+                if (precoStr != null && !precoStr.isBlank()) {
+                    double preco = Double.parseDouble(precoStr);
+                    servico.setPrecoservico(preco);
+                }
+
+                servicoRepo.save(servico);
+                model.addAttribute("mensagemSucesso", "Serviço atualizado com sucesso.");
+            } else {
+                model.addAttribute("mensagemErro", "Serviço não encontrado.");
+            }
+        } catch (Exception e) {
+            model.addAttribute("mensagemErro", "Erro ao atualizar serviço: " + e.getMessage());
+        }
+
+        model.addAttribute("servicos", servicoRepo.findAll());
+        return "editar-servico";
+    }
+
     @GetMapping("/listar-servicos")
     public String listarServicos(Model model, HttpSession session) {
         if (SessaoUtilizador.getFuncionario(session) == null) {

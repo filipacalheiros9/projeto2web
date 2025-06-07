@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Estado do Projeto</title>
+    <style>
+        body { margin: 0; font-family: Arial, sans-serif; background: #f4f6f8; }
+        .topbar {
+            background-color: #7ba3d8;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            color: white;
+        }
+        .menu-icon { font-size: 24px; cursor: pointer; }
+        .logo { height: 40px; }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #ffffff;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+            transition: left 0.3s ease;
+            z-index: 1000;
+        }
+        .sidebar.open { left: 0; }
+        .sidebar a {
+            display: block;
+            margin-bottom: 15px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .sidebar a:hover { color: #7ba3d8; }
+
+        .content {
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            transition: margin-left 0.3s ease;
+        }
+
+        .content.shifted { margin-left: 250px; }
+
+        .form-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .estado {
+            font-size: 18px;
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <span class="menu-icon" onclick="toggleSidebar()">☰</span>
+    <img th:src="@{/images/logo.png}" alt="Logo" class="logo">
+</div>
+
+<div id="sidebar" class="sidebar">
+    <a th:href="@{/cliente/home}">Início</a>
+    <a th:href="@{/cliente/perfil}">Perfil</a>
+    <a th:href="@{/cliente/projetos}">Projetos</a>
+    <a th:href="@{/cliente/logout}" style="color: red;">Terminar sessão</a>
+</div>
+
+<div id="content" class="content">
+    <div class="form-container">
+        <h2>Ver Estado do Projeto</h2>
+
+        <form th:action="@{/cliente/projetos/estado}" method="get">
+            <label for="projeto">Selecione o Projeto:</label>
+            <select id="projeto" name="id" required>
+                <option value="" disabled selected>Escolha um projeto</option>
+                <option th:each="p : ${projetos}" th:value="${p.id}" th:text="${p.temaprojeto}"></option>
+            </select>
+            <button type="submit">Ver Estado</button>
+        </form>
+
+        <div class="estado" th:if="${estado}">
+            Estado atual: <strong th:text="${estado}"></strong>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const content = document.getElementById('content');
+        sidebar.classList.toggle('open');
+        content.classList.toggle('shifted');
+    }
+</script>
+
+</body>
+</html>

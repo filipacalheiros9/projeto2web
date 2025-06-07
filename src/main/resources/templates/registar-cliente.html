@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registar Cliente</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .form-container {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 10px;
+            border: 2px solid #e1e8ed;
+            background: #f9f9f9;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: #7ba3d8;
+            background: white;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(123, 163, 216, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: #7ba3d8;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #6b93c8;
+        }
+
+        .error-message, .success-message {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .error-message {
+            background-color: #ffe5e5;
+            color: #c0392b;
+        }
+
+        .success-message {
+            background-color: #e0ffe5;
+            color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h1>Registar Cliente</h1>
+
+    <form th:action="@{/cliente/registar}" method="post">
+        <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nomecliente" required>
+        </div>
+
+        <div class="form-group">
+            <label for="telefone">Telefone</label>
+            <input type="text" id="telefone" name="telefonecliente" required>
+        </div>
+
+        <div class="form-group">
+            <label for="rua">Rua</label>
+            <input type="text" id="rua" name="ruacliente" required>
+        </div>
+
+        <div class="form-group">
+            <label for="porta">Nº Porta</label>
+            <input type="number" id="porta" name="nportacliente" required>
+        </div>
+
+        <div class="form-group">
+            <label for="nif">NIF</label>
+            <input type="text" id="nif" name="nifcliente" required>
+        </div>
+
+        <div class="form-group">
+            <label for="codpostal">Código Postal</label>
+            <select id="codpostal" name="codpostalcli" required>
+                <option th:each="c : ${codigosPostais}"
+                        th:value="${c.codpostalcliente}"
+                        th:text="${c.codpostalcliente + ' - ' + c.localidade}">Código</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="username">Nome de Utilizador</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+
+        <div class="form-group">
+            <label for="pass">Palavra-passe</label>
+            <input type="password" id="pass" name="pass" required>
+        </div>
+
+        <button type="submit">Criar Conta</button>
+    </form>
+
+    <div th:if="${mensagemErro}" class="error-message" th:text="${mensagemErro}"></div>
+    <div th:if="${mensagemSucesso}" class="success-message" th:text="${mensagemSucesso}"></div>
+</div>
+</body>
+</html>

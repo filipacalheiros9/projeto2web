@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil do Cliente</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        .topbar {
+            background-color: #7ba3d8;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+        }
+
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #ffffff;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+            transition: left 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar a {
+            display: block;
+            margin-bottom: 15px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .sidebar a:hover {
+            color: #7ba3d8;
+        }
+
+        .content {
+            padding: 40px;
+            margin-left: 0;
+            transition: margin-left 0.3s ease;
+        }
+
+        .content.shifted {
+            margin-left: 250px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #7ba3d8;
+            border: none;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #6b93c8;
+        }
+
+        .delete-button {
+            background-color: #d9534f;
+            margin-left: 10px;
+        }
+
+        .mensagem {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .mensagem.sucesso {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .mensagem.erro {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        @media (max-width: 600px) {
+            .content.shifted {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div id="sidebar" class="sidebar">
+    <a th:href="@{/cliente/home}">Início</a>
+    <a th:href="@{/cliente/perfil}">Perfil</a>
+    <a th:href="@{/cliente/projetos}">Projetos</a>
+    <a th:href="@{/cliente/logout}" style="color: red;">Terminar sessão</a>
+</div>
+
+<div class="topbar">
+    <span class="menu-icon" onclick="toggleSidebar()">☰</span>
+    <img th:src="@{/images/logo.png}" alt="Logo" class="logo">
+</div>
+
+<div id="content" class="content">
+    <h1>Perfil do Cliente</h1>
+
+    <form th:action="@{/cliente/perfil}" method="post" th:object="${cliente}">
+        <div class="form-group">
+            <label>Nome</label>
+            <input type="text" th:field="*{nomecliente}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Telefone</label>
+            <input type="text" th:field="*{telefonecliente}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Rua</label>
+            <input type="text" th:field="*{ruacliente}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Número da porta</label>
+            <input type="number" th:field="*{nportacliente}" required>
+        </div>
+
+        <div class="form-group">
+            <label>NIF</label>
+            <input type="text" th:field="*{nifcliente}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Código Postal</label>
+            <select th:field="*{codpostalcli.codpostalcliente}" required>
+                <option th:each="codigo : ${codigosPostais}"
+                        th:value="${codigo.codpostalcliente}"
+                        th:text="${codigo.codpostalcliente + ' - ' + codigo.localidade}">
+                </option>
+            </select>
+        </div>
+
+        <button type="submit">Atualizar</button>
+    </form>
+
+    <form th:action="@{/cliente/eliminar}" method="post" onsubmit="return confirm('Tem a certeza que deseja eliminar a sua conta? Esta ação é irreversível.')">
+        <button type="submit" class="delete-button">Eliminar Conta</button>
+    </form>
+
+    <div th:if="${sucesso}" class="mensagem sucesso" th:text="${sucesso}"></div>
+    <div th:if="${erro}" class="mensagem erro" th:text="${erro}"></div>
+</div>
+
+<script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const content = document.getElementById('content');
+        sidebar.classList.toggle('open');
+        content.classList.toggle('shifted');
+    }
+</script>
+
+</body>
+</html>

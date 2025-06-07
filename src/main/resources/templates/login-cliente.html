@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Cliente</title>
+    <style>
+        /* Mesmo estilo do login do funcionário */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .login-container {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            max-width: 450px;
+            width: 100%;
+            animation: fadeInUp 0.8s ease-out;
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .login-logo {
+            max-width: 150px;
+            margin: 0 auto 20px;
+            display: block;
+            filter: drop-shadow(0 8px 25px rgba(123, 163, 216, 0.3));
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 2.2em;
+            font-weight: 300;
+            letter-spacing: -0.5px;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1em;
+            font-weight: 400;
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        label {
+            display: block;
+            color: #555;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            color: #2c3e50;
+        }
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #7ba3d8;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(123, 163, 216, 0.1);
+            transform: translateY(-2px);
+        }
+        .login-button {
+            width: 100%;
+            padding: 18px;
+            background: #7ba3d8;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(123, 163, 216, 0.3);
+            position: relative;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .login-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        .login-button:hover::before { left: 100%; }
+        .login-button:hover {
+            background: #6b93c8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(123, 163, 216, 0.4);
+        }
+        .login-button:active { transform: translateY(0); }
+        .error-message {
+            background: #fee;
+            color: #c53030;
+            padding: 15px 20px;
+            border-radius: 12px;
+            border-left: 4px solid #fc8181;
+            margin-top: 20px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            animation: shake 0.5s ease-in-out;
+        }
+        .error-icon {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 40px 30px;
+                margin: 20px;
+            }
+            h1 { font-size: 1.8em; }
+            .login-logo { max-width: 120px; }
+        }
+        input::placeholder {
+            color: #a0aec0;
+            font-style: italic;
+        }
+        input:invalid:not(:placeholder-shown) {
+            border-color: #fc8181;
+            background: #fef5e7;
+        }
+        input:valid:not(:placeholder-shown) {
+            border-color: #68d391;
+            background: #f0fff4;
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <div class="login-header">
+        <img th:src="@{/images/logo.png}" alt="Logo" class="login-logo">
+        <h1>Iniciar Sessão</h1>
+        <p class="subtitle">Aceda à sua área pessoal</p>
+    </div>
+
+    <form th:action="@{/cliente/login}" method="post">
+        <div class="form-group">
+            <label for="username">Nome de Utilizador</label>
+            <input type="text" name="username" id="username" required
+                   placeholder="Digite o seu nome de utilizador">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Palavra-passe</label>
+            <input type="password" name="password" id="password" required
+                   placeholder="Digite a sua palavra-passe">
+        </div>
+
+        <button type="submit" class="login-button">
+            Entrar
+        </button>
+    </form>
+
+    <form th:action="@{/cliente/registar}" method="get">
+        <button type="submit" class="login-button" style="margin-top: 15px; background-color: #5cb85c;">
+            Criar Conta
+        </button>
+    </form>
+
+    <div th:if="${erro}" class="error-message">
+        <span class="error-icon">⚠️</span>
+        Email ou palavra-passe inválidos. Tente novamente.
+    </div>
+
+</div>
+</body>
+</html>
