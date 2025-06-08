@@ -4,92 +4,212 @@
     <meta charset="UTF-8">
     <title>Registar Cliente</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            position: relative;
         }
 
         .form-container {
-            background: white;
+            background: #ffffff;
             padding: 50px 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+            border-radius: 25px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.1);
+            max-width: 650px;
             width: 100%;
+            position: relative;
+            border: 1px solid #e2e8f0;
         }
 
         h1 {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             color: #2c3e50;
+            font-size: 2.2em;
+            font-weight: 700;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            position: relative;
         }
 
         label {
             display: block;
             font-weight: 600;
-            margin-bottom: 8px;
-            color: #555;
+            margin-bottom: 10px;
+            color: #4a5568;
+            font-size: 0.95em;
+            letter-spacing: 0.5px;
         }
 
         input, select {
             width: 100%;
-            padding: 14px 18px;
-            border-radius: 10px;
-            border: 2px solid #e1e8ed;
-            background: #f9f9f9;
-            font-size: 15px;
-            transition: 0.3s;
+            padding: 16px 20px;
+            border-radius: 15px;
+            border: 2px solid #e2e8f0;
+            background: #ffffff;
+            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
         }
 
         input:focus, select:focus {
             border-color: #7ba3d8;
-            background: white;
+            background: #ffffff;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(123, 163, 216, 0.1);
+            box-shadow: 0 0 0 4px rgba(123, 163, 216, 0.1),
+            0 4px 20px rgba(123, 163, 216, 0.15);
+            transform: translateY(-2px);
+        }
+
+        input:hover, select:hover {
+            border-color: #a0aec0;
+            transform: translateY(-1px);
+        }
+
+        .btn-container {
+            margin-top: 35px;
         }
 
         button {
             width: 100%;
-            padding: 16px;
+            padding: 18px;
             background: #7ba3d8;
             color: white;
-            font-size: 17px;
-            font-weight: bold;
+            font-size: 18px;
+            font-weight: 700;
             border: none;
-            border-radius: 12px;
+            border-radius: 15px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
         }
 
         button:hover {
             background: #6b93c8;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(123, 163, 216, 0.4);
+        }
+
+        button:active {
+            transform: translateY(-1px);
         }
 
         .error-message, .success-message {
-            margin-top: 15px;
-            padding: 15px;
-            border-radius: 10px;
-            font-weight: bold;
+            margin-top: 25px;
+            padding: 18px 24px;
+            border-radius: 15px;
+            font-weight: 600;
             text-align: center;
+            font-size: 15px;
+            border-left: 5px solid;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .error-message {
-            background-color: #ffe5e5;
-            color: #c0392b;
+            background: linear-gradient(135deg, #ffe5e5, #ffd0d0);
+            color: #c53030;
+            border-left-color: #c53030;
+            box-shadow: 0 4px 15px rgba(197, 48, 48, 0.1);
         }
 
         .success-message {
-            background-color: #e0ffe5;
-            color: #27ae60;
+            background: linear-gradient(135deg, #e0ffe5, #c6f6d5);
+            color: #2f855a;
+            border-left-color: #2f855a;
+            box-shadow: 0 4px 15px rgba(47, 133, 90, 0.1);
+        }
+
+        /* Animações suaves para os campos */
+        .form-group {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+        .form-group:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsividade melhorada */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 30px 25px;
+                margin: 10px;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            h1 {
+                font-size: 1.8em;
+                margin-bottom: 30px;
+            }
+
+            input, select {
+                padding: 14px 16px;
+                font-size: 16px;
+            }
+
+            button {
+                padding: 16px;
+                font-size: 16px;
+            }
+        }
+
+        /* Efeito de foco melhorado para acessibilidade */
+        input:focus-visible, select:focus-visible, button:focus-visible {
+            outline: 3px solid #7ba3d8;
+            outline-offset: 2px;
         }
     </style>
 </head>
@@ -98,51 +218,62 @@
     <h1>Registar Cliente</h1>
 
     <form th:action="@{/cliente/registar}" method="post">
-        <div class="form-group">
-            <label for="nome">Nome</label>
-            <input type="text" id="nome" name="nomecliente" required>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="nome">Nome Completo</label>
+                <input type="text" id="nome" name="nomecliente" required>
+            </div>
+
+            <div class="form-group">
+                <label for="telefone">Telefone</label>
+                <input type="text" id="telefone" name="telefonecliente" required>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="telefone">Telefone</label>
-            <input type="text" id="telefone" name="telefonecliente" required>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="rua">Rua</label>
+                <input type="text" id="rua" name="ruacliente" required>
+            </div>
+
+            <div class="form-group">
+                <label for="porta">Nº Porta</label>
+                <input type="number" id="porta" name="nportacliente" required>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="rua">Rua</label>
-            <input type="text" id="rua" name="ruacliente" required>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="nif">NIF</label>
+                <input type="text" id="nif" name="nifcliente" required>
+            </div>
+
+            <div class="form-group">
+                <label for="codpostal">Código Postal</label>
+                <select id="codpostal" name="codpostalcli" required>
+                    <option value="">Selecione o código postal</option>
+                    <option th:each="c : ${codigosPostais}"
+                            th:value="${c.codpostalcliente}"
+                            th:text="${c.codpostalcliente + ' - ' + c.localidade}">Código</option>
+                </select>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="porta">Nº Porta</label>
-            <input type="number" id="porta" name="nportacliente" required>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="username">Nome de Utilizador</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="pass">Palavra-passe</label>
+                <input type="password" id="pass" name="pass" required>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="nif">NIF</label>
-            <input type="text" id="nif" name="nifcliente" required>
+        <div class="btn-container">
+            <button type="submit">Criar Conta</button>
         </div>
-
-        <div class="form-group">
-            <label for="codpostal">Código Postal</label>
-            <select id="codpostal" name="codpostalcli" required>
-                <option th:each="c : ${codigosPostais}"
-                        th:value="${c.codpostalcliente}"
-                        th:text="${c.codpostalcliente + ' - ' + c.localidade}">Código</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="username">Nome de Utilizador</label>
-            <input type="text" id="username" name="username" required>
-        </div>
-
-        <div class="form-group">
-            <label for="pass">Palavra-passe</label>
-            <input type="password" id="pass" name="pass" required>
-        </div>
-
-        <button type="submit">Criar Conta</button>
     </form>
 
     <div th:if="${mensagemErro}" class="error-message" th:text="${mensagemErro}"></div>

@@ -34,28 +34,62 @@
             left: -250px;
             width: 250px;
             height: 100%;
-            background-color: #ffffff;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.15);
+            padding: 30px 20px;
             box-sizing: border-box;
             transition: left 0.3s ease;
             z-index: 1000;
+            border-right: 3px solid #7ba3d8;
         }
 
         .sidebar.open {
             left: 0;
         }
 
+        .sidebar-header {
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #7ba3d8;
+            margin-bottom: 5px;
+        }
+
         .sidebar a {
-            display: block;
-            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 12px 16px;
             color: #333;
             text-decoration: none;
             font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
         }
 
         .sidebar a:hover {
             color: #7ba3d8;
+            background-color: #f1f5f9;
+            border-left-color: #7ba3d8;
+            transform: translateX(5px);
+        }
+
+        .sidebar a.logout {
+            color: #dc2626;
+            margin-top: 20px;
+            border: 1px solid #fee2e2;
+        }
+
+        .sidebar a.logout:hover {
+            background-color: #fef2f2;
+            border-left-color: #dc2626;
         }
 
         .content {
@@ -68,12 +102,46 @@
             margin-left: 250px;
         }
 
+        h1 {
+            color: #2d3748;
+            font-size: 26px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-inline {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        select, button {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #7ba3d8 0%, #5a8bc4 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #6b93c8 0%, #4f78b0 100%);
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
             background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-top: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         th, td {
@@ -91,40 +159,14 @@
             background-color: #f1f7ff;
         }
 
-        .form-inline {
-            display: flex;
-            align-items: center;
-            margin-top: 30px;
-            gap: 10px;
+        .success, .error {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 500;
         }
 
-        select, button {
-            padding: 10px 15px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-        }
-
-        button {
-            background-color: #7ba3d8;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #6b93c8;
-        }
-
-        .success {
-            color: green;
-            margin-top: 20px;
-        }
-
-        .error {
-            color: red;
-            margin-top: 20px;
-        }
+        .success { color: green; }
+        .error { color: red; }
 
         @media (max-width: 600px) {
             .content.shifted {
@@ -141,10 +183,13 @@
 <body>
 
 <div id="sidebar" class="sidebar">
-    <a th:href="@{/funcionario2/home}">Início</a>
-    <a th:href="@{/funcionario2/stock}">Stock</a>
-    <a th:href="@{/funcionario2/cliente}">Cliente</a>
-    <a th:href="@{/funcionario/logout}" style="color: red;">Terminar sessão</a>
+    <div class="sidebar-header">
+        <div class="sidebar-title">Menu Funcionário</div>
+    </div>
+    <a th:href="@{/funcionario2/home}">🏠 Início</a>
+    <a th:href="@{/funcionario2/stock}">📦 Stock</a>
+    <a th:href="@{/funcionario2/cliente}">👥 Cliente</a>
+    <a th:href="@{/funcionario/logout}" class="logout">🚪 Terminar sessão</a>
 </div>
 
 <div class="topbar">
@@ -193,10 +238,8 @@
 
 <script>
     function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        const content = document.getElementById('content');
-        sidebar.classList.toggle('open');
-        content.classList.toggle('shifted');
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('content').classList.toggle('shifted');
     }
 </script>
 

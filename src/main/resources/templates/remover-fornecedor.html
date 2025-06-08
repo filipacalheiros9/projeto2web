@@ -5,60 +5,157 @@
     <title>Remover Fornecedor</title>
     <style>
         body {
-            margin: 0; font-family: Arial, sans-serif; background: #f4f6f8;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
         }
+
         .topbar {
-            background-color: #7ba3d8; padding: 15px 20px; color: white;
-            display: flex; justify-content: space-between; align-items: center;
+            background-color: #7ba3d8;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
         }
-        .menu-icon { font-size: 24px; cursor: pointer; }
-        .logo { height: 40px; }
+
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
         .sidebar {
             position: fixed;
             top: 0;
             left: -250px;
             width: 250px;
             height: 100%;
-            background-color: #ffffff;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.15);
+            padding: 30px 20px;
             box-sizing: border-box;
             transition: left 0.3s ease;
             z-index: 1000;
+            border-right: 3px solid #7ba3d8;
         }
-        .sidebar.open { left: 0; }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar-header {
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #7ba3d8;
+            margin-bottom: 5px;
+        }
+
         .sidebar a {
-            display: block; margin-bottom: 15px; text-decoration: none;
-            color: #333; font-weight: 500;
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 12px 16px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
         }
-        .sidebar a:hover { color: #7ba3d8; }
+
+        .sidebar a:hover {
+            color: #7ba3d8;
+            background-color: #f1f5f9;
+            border-left-color: #7ba3d8;
+            transform: translateX(5px);
+        }
+
+        .sidebar a.logout {
+            color: #dc2626;
+            margin-top: 20px;
+            border: 1px solid #fee2e2;
+        }
+
+        .sidebar a.logout:hover {
+            background-color: #fef2f2;
+            border-left-color: #dc2626;
+        }
+
         .content {
-            padding: 40px; transition: margin-left 0.3s ease;
+            padding: 40px;
+            transition: margin-left 0.3s ease;
         }
-        .content.shifted { margin-left: 250px; }
+
+        .content.shifted {
+            margin-left: 250px;
+        }
+
         .form-container {
-            background: white; padding: 30px; border-radius: 8px;
-            max-width: 800px; margin: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 1000px;
+            margin: auto;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
+
         table {
-            width: 100%; border-collapse: collapse; margin-top: 20px;
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
         }
+
         th, td {
-            padding: 10px; border-bottom: 1px solid #ccc;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            text-align: left;
         }
+
+        th {
+            background-color: #e0eafc;
+        }
+
         button {
-            padding: 10px 20px; background: #d9534f; color: white;
-            border: none; border-radius: 4px; cursor: pointer;
+            padding: 8px 16px;
+            background: #d9534f;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
         }
-        button:hover { background: #c9302c; }
+
+        button:hover {
+            background: #c9302c;
+        }
+
         .alert-success, .alert-error {
-            padding: 10px; border-radius: 5px; margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
         }
+
         .alert-success {
-            background: #d4edda; color: #155724; border: 1px solid #c3e6cb;
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
         }
+
         .alert-error {
-            background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
     </style>
 </head>
@@ -70,13 +167,16 @@
 </div>
 
 <div id="sidebar" class="sidebar">
-    <a th:href="@{/gerente/home}">Início</a>
-    <a th:href="@{/gerente/perfil}">Perfil</a>
-    <a th:href="@{/gerente/funcionarios}">Funcionários</a>
-    <a th:href="@{/gerente/stock}">Stock</a>
-    <a th:href="@{/gerente/fornecedor}">Fornecedor</a>
-    <a th:href="@{/gerente/projetos}">Projetos</a>
-    <a th:href="@{/funcionario/logout}" style="color:red;">Terminar Sessão</a>
+    <div class="sidebar-header">
+        <div class="sidebar-title">Menu Principal</div>
+    </div>
+    <a th:href="@{/gerente/home}">🏠 Início</a>
+    <a th:href="@{/gerente/perfil}">👤 Perfil</a>
+    <a th:href="@{/gerente/funcionarios}">👥 Funcionários</a>
+    <a th:href="@{/gerente/stock}">📦 Stock</a>
+    <a th:href="@{/gerente/fornecedor}">🏢 Fornecedor</a>
+    <a th:href="@{/gerente/projetos}">📋 Projetos</a>
+    <a th:href="@{/funcionario/logout}" class="logout">🚪 Terminar sessão</a>
 </div>
 
 <div id="content" class="content">
@@ -101,12 +201,12 @@
                 </thead>
                 <tbody>
                 <tr th:each="f : ${fornecedores}">
-                    <td th:text="${f.nomefornecedor}">Nome</td>
-                    <td th:text="${f.niffornecedor}">NIF</td>
-                    <td th:text="${f.telefonefornecedor}">Telefone</td>
-                    <td th:text="${f.ruafornecedor}">Rua</td>
-                    <td th:text="${f.nportafornecedor}">Porta</td>
-                    <td th:text="${f.codpostalforn.codpostalfornecedor}">CP</td>
+                    <td th:text="${f.nomefornecedor}"></td>
+                    <td th:text="${f.niffornecedor}"></td>
+                    <td th:text="${f.telefonefornecedor}"></td>
+                    <td th:text="${f.ruafornecedor}"></td>
+                    <td th:text="${f.nportafornecedor}"></td>
+                    <td th:text="${f.codpostalforn.codpostalfornecedor}"></td>
                     <td>
                         <button type="submit" name="id" th:value="${f.id}">Remover</button>
                     </td>

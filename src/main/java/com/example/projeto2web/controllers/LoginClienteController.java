@@ -80,13 +80,14 @@ public class LoginClienteController {
             cliente.setPass(pass);
 
             clienteService.salvar(cliente);
-            model.addAttribute("mensagemSucesso", "Conta criada com sucesso!");
+
+            return "redirect:/cliente/login?sucesso=true";
+
         } catch (Exception e) {
             model.addAttribute("mensagemErro", "Erro ao criar conta: " + e.getMessage());
+            model.addAttribute("codigosPostais", codPostalClienteService.listarTodos());
+            return "registar-cliente";
         }
-
-        model.addAttribute("codigosPostais", codPostalClienteService.listarTodos());
-        return "registar-cliente";
     }
 
     @GetMapping("/logout")

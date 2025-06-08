@@ -34,28 +34,62 @@
             left: -250px;
             width: 250px;
             height: 100%;
-            background-color: #ffffff;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.15);
+            padding: 30px 20px;
             box-sizing: border-box;
             transition: left 0.3s ease;
             z-index: 1000;
+            border-right: 3px solid #7ba3d8;
         }
 
         .sidebar.open {
             left: 0;
         }
 
+        .sidebar-header {
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #7ba3d8;
+            margin-bottom: 5px;
+        }
+
         .sidebar a {
-            display: block;
-            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 12px 16px;
             color: #333;
             text-decoration: none;
             font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
         }
 
         .sidebar a:hover {
             color: #7ba3d8;
+            background-color: #f1f5f9;
+            border-left-color: #7ba3d8;
+            transform: translateX(5px);
+        }
+
+        .sidebar a.logout {
+            color: #dc2626;
+            margin-top: 20px;
+            border: 1px solid #fee2e2;
+        }
+
+        .sidebar a.logout:hover {
+            background-color: #fef2f2;
+            border-left-color: #dc2626;
         }
 
         .content {
@@ -68,34 +102,87 @@
             margin-left: 250px;
         }
 
+        .page-header h1 {
+            font-size: 32px;
+            color: #2d3748;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
         .button-container {
-            margin-top: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            max-width: 300px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1000px;
         }
 
-        button {
+        .action-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .action-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 15px 25px;
-            font-size: 16px;
-            font-weight: 500;
-            background-color: #7ba3d8;
-            border: none;
-            border-radius: 10px;
-            color: white;
-            cursor: pointer;
-            transition: background 0.3s ease;
+            height: 4px;
+            background: linear-gradient(90deg, #7ba3d8, #5a8bc4);
         }
 
-        button:hover {
-            background-color: #6b93c8;
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(123, 163, 216, 0.2);
+            border-color: #7ba3d8;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 12px;
+        }
+
+        .card-description {
+            font-size: 15px;
+            color: #718096;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .action-button {
+            width: 100%;
+            padding: 14px 22px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #7ba3d8 0%, #5a8bc4 100%);
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(123, 163, 216, 0.3);
+            position: relative;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(123, 163, 216, 0.4);
         }
 
         @media (max-width: 600px) {
             .content.shifted {
                 margin-left: 0;
+            }
+
+            .button-container {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -103,10 +190,13 @@
 <body>
 
 <div id="sidebar" class="sidebar">
-    <a th:href="@{/funcionario2/home}">Início</a>
-    <a th:href="@{/funcionario2/stock}">Stock</a>
-    <a th:href="@{/funcionario2/cliente}">Cliente</a>
-    <a th:href="@{/funcionario/logout}" style="color: red;">Terminar sessão</a>
+    <div class="sidebar-header">
+        <div class="sidebar-title">Menu Funcionário</div>
+    </div>
+    <a th:href="@{/funcionario2/home}">🏠 Início</a>
+    <a th:href="@{/funcionario2/stock}">📦 Stock</a>
+    <a th:href="@{/funcionario2/cliente}">👥 Cliente</a>
+    <a th:href="@{/funcionario/logout}" class="logout">🚪 Terminar sessão</a>
 </div>
 
 <div class="topbar">
@@ -115,30 +205,66 @@
 </div>
 
 <div id="content" class="content">
-    <h1>Gestão de Clientes</h1>
+    <div class="page-header">
+        <h1>Gestão de Clientes</h1>
+    </div>
 
     <div class="button-container">
-        <form th:action="@{/funcionario2/cliente/listar-projetos}" method="get">
-            <button type="submit">Listar Projetos</button>
-        </form>
-        <form th:action="@{/funcionario2/cliente/adicionar-servico}" method="get">
-            <button type="submit">Adicionar Serviço</button>
-        </form>
-        <form th:action="@{/funcionario2/cliente/remover-servico}" method="get">
-            <button type="submit">Remover Serviço</button>
-        </form>
-        <form th:action="@{/funcionario2/cliente/editar-servico}" method="get">
-            <button type="submit">Editar Serviço</button>
-        </form>
-        <form th:action="@{/funcionario2/cliente/listar-servicos}" method="get">
-            <button type="submit">Listar Serviços</button>
-        </form>
-        <form th:action="@{/funcionario2/cliente/registar-pagamento-cliente}" method="get">
-            <button type="submit">Registar Pagamento</button>
-        </form>
-        <form th:action="@{/funcionario2/cliente/listar-pagamentos-clientes}" method="get">
-            <button type="submit">Listar Pagamentos</button>
-        </form>
+        <div class="action-card">
+            <div class="card-title">📋 Listar Projetos</div>
+            <div class="card-description">Veja todos os projetos associados aos clientes.</div>
+            <form th:action="@{/funcionario2/cliente/listar-projetos}" method="get">
+                <button type="submit" class="action-button">Listar</button>
+            </form>
+        </div>
+
+        <div class="action-card">
+            <div class="card-title">➕ Adicionar Serviço</div>
+            <div class="card-description">Adicione um novo serviço ao projeto de um cliente.</div>
+            <form th:action="@{/funcionario2/cliente/adicionar-servico}" method="get">
+                <button type="submit" class="action-button">Adicionar</button>
+            </form>
+        </div>
+
+        <div class="action-card">
+            <div class="card-title">❌ Remover Serviço</div>
+            <div class="card-description">Remova serviços que não são mais necessários.</div>
+            <form th:action="@{/funcionario2/cliente/remover-servico}" method="get">
+                <button type="submit" class="action-button">Remover</button>
+            </form>
+        </div>
+
+        <div class="action-card">
+            <div class="card-title">✏️ Editar Serviço</div>
+            <div class="card-description">Modifique os detalhes de um serviço existente.</div>
+            <form th:action="@{/funcionario2/cliente/editar-servico}" method="get">
+                <button type="submit" class="action-button">Editar</button>
+            </form>
+        </div>
+
+        <div class="action-card">
+            <div class="card-title">🔍 Listar Serviços</div>
+            <div class="card-description">Visualize todos os serviços registados por cliente.</div>
+            <form th:action="@{/funcionario2/cliente/listar-servicos}" method="get">
+                <button type="submit" class="action-button">Visualizar</button>
+            </form>
+        </div>
+
+        <div class="action-card">
+            <div class="card-title">💰 Registar Pagamento</div>
+            <div class="card-description">Insira os dados de um novo pagamento de cliente.</div>
+            <form th:action="@{/funcionario2/cliente/registar-pagamento-cliente}" method="get">
+                <button type="submit" class="action-button">Registar</button>
+            </form>
+        </div>
+
+        <div class="action-card">
+            <div class="card-title">📑 Listar Pagamentos</div>
+            <div class="card-description">Consulte os pagamentos efetuados pelos clientes.</div>
+            <form th:action="@{/funcionario2/cliente/listar-pagamentos-clientes}" method="get">
+                <button type="submit" class="action-button">Consultar</button>
+            </form>
+        </div>
     </div>
 </div>
 

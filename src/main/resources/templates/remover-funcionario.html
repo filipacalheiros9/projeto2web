@@ -19,14 +19,8 @@
             color: white;
         }
 
-        .menu-icon {
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        .logo {
-            height: 40px;
-        }
+        .menu-icon { font-size: 24px; cursor: pointer; }
+        .logo { height: 40px; }
 
         .sidebar {
             position: fixed;
@@ -34,85 +28,143 @@
             left: -250px;
             width: 250px;
             height: 100%;
-            background-color: #ffffff;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.15);
+            padding: 30px 20px;
             box-sizing: border-box;
             transition: left 0.3s ease;
             z-index: 1000;
+            border-right: 3px solid #7ba3d8;
         }
 
-        .sidebar.open {
-            left: 0;
+        .sidebar.open { left: 0; }
+
+        .sidebar-header {
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #7ba3d8;
+            margin-bottom: 5px;
         }
 
         .sidebar a {
-            display: block;
-            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 12px 16px;
             color: #333;
             text-decoration: none;
             font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
         }
 
         .sidebar a:hover {
             color: #7ba3d8;
+            background-color: #f1f5f9;
+            border-left-color: #7ba3d8;
+            transform: translateX(5px);
+        }
+
+        .sidebar a.logout {
+            color: #dc2626;
+            margin-top: 20px;
+            border: 1px solid #fee2e2;
+        }
+
+        .sidebar a.logout:hover {
+            background-color: #fef2f2;
+            border-left-color: #dc2626;
         }
 
         .content {
             padding: 40px;
             margin-left: 0;
             transition: margin-left 0.3s ease;
-            max-width: 600px;
-            margin: 40px auto;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        label, select, button {
+        .content.shifted {
+            margin-left: 250px;
+        }
+
+        .form-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 16px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 28px;
+            color: #2d3748;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
             display: block;
-            width: 100%;
-            margin-bottom: 20px;
-            font-size: 16px;
         }
 
         select {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 16px;
         }
 
         button {
-            padding: 12px;
-            background-color: #7ba3d8;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #7ba3d8 0%, #5a8bc4 100%);
             color: white;
             border: none;
-            border-radius: 6px;
-            cursor: pointer;
+            border-radius: 12px;
             font-weight: 600;
-            transition: background-color 0.3s ease;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(123, 163, 216, 0.3);
         }
 
         button:hover {
-            background-color: #5a85c4;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(123, 163, 216, 0.4);
         }
 
         .message {
             padding: 15px;
             margin-bottom: 20px;
-            border-radius: 6px;
+            border-radius: 8px;
+            font-weight: 500;
         }
 
         .message.success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
         }
 
         .message.error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #f87171;
+        }
+
+        @media (max-width: 600px) {
+            .content.shifted { margin-left: 0; }
         }
     </style>
 </head>
@@ -120,13 +172,16 @@
 
 <!-- Sidebar -->
 <div id="sidebar" class="sidebar">
-    <a th:href="@{/gerente/home}">Início</a>
-    <a th:href="@{/gerente/perfil}">Perfil</a>
-    <a th:href="@{/gerente/funcionarios}">Funcionários</a>
-    <a th:href="@{/gerente/stock}">Stock</a>
-    <a th:href="@{/gerente/fornecedor}">Fornecedor</a>
-    <a th:href="@{/gerente/projetos}">Projetos</a>
-    <a th:href="@{/funcionario/logout}" style="color: red;">Terminar sessão</a>
+    <div class="sidebar-header">
+        <div class="sidebar-title">Menu Principal</div>
+    </div>
+    <a th:href="@{/gerente/home}">🏠 Início</a>
+    <a th:href="@{/gerente/perfil}">👤 Perfil</a>
+    <a th:href="@{/gerente/funcionarios}">👥 Funcionários</a>
+    <a th:href="@{/gerente/stock}">📦 Stock</a>
+    <a th:href="@{/gerente/fornecedor}">🏢 Fornecedor</a>
+    <a th:href="@{/gerente/projetos}">📋 Projetos</a>
+    <a th:href="@{/funcionario/logout}" class="logout">🚪 Terminar sessão</a>
 </div>
 
 <!-- Topbar -->
@@ -137,20 +192,22 @@
 
 <!-- Content -->
 <div id="content" class="content">
-    <h2>Remover Funcionário</h2>
+    <div class="form-container">
+        <h2>Remover Funcionário</h2>
 
-    <div th:if="${sucesso}" class="message success" th:text="${sucesso}"></div>
-    <div th:if="${erro}" class="message error" th:text="${erro}"></div>
+        <div th:if="${sucesso}" class="message success" th:text="${sucesso}"></div>
+        <div th:if="${erro}" class="message error" th:text="${erro}"></div>
 
-    <form th:action="@{/gerente/funcionarios/remover}" method="post">
-        <label for="id">Selecione o Funcionário:</label>
-        <select id="id" name="id" required>
-            <option value="" disabled selected>-- Escolha um funcionário --</option>
-            <option th:each="func : ${funcionarios}" th:value="${func.id}" th:text="${func.nomefuncionario}"></option>
-        </select>
+        <form th:action="@{/gerente/funcionarios/remover}" method="post">
+            <label for="id">Selecione o Funcionário:</label>
+            <select id="id" name="id" required>
+                <option value="" disabled selected>-- Escolha um funcionário --</option>
+                <option th:each="func : ${funcionarios}" th:value="${func.id}" th:text="${func.nomefuncionario}"></option>
+            </select>
 
-        <button type="submit">Remover</button>
-    </form>
+            <button type="submit">Remover</button>
+        </form>
+    </div>
 </div>
 
 <script>

@@ -34,6 +34,7 @@
             box-sizing: border-box;
             transition: left 0.3s ease;
             z-index: 1000;
+            border-right: 3px solid #7ba3d8;
         }
 
         .sidebar.open { left: 0; }
@@ -44,9 +45,26 @@
             text-decoration: none;
             color: #333;
             font-weight: 500;
+            border-left: 3px solid transparent;
+            padding: 10px;
+            border-radius: 6px;
         }
 
-        .sidebar a:hover { color: #7ba3d8; }
+        .sidebar a:hover {
+            color: #7ba3d8;
+            background-color: #f1f5f9;
+            border-left: 3px solid #7ba3d8;
+        }
+
+        .sidebar a.logout {
+            color: #dc2626;
+            margin-top: 20px;
+        }
+
+        .sidebar a.logout:hover {
+            background-color: #fef2f2;
+            border-left: 3px solid #dc2626;
+        }
 
         .content {
             padding: 40px;
@@ -54,18 +72,28 @@
             transition: margin-left 0.3s ease;
         }
 
-        .content.shifted { margin-left: 250px; }
+        .content.shifted {
+            margin-left: 250px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 30px;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         th, td {
-            padding: 12px;
-            border-bottom: 1px solid #ccc;
+            padding: 12px 15px;
             text-align: left;
+            border-bottom: 1px solid #ddd;
         }
 
         th {
@@ -73,9 +101,30 @@
             color: white;
         }
 
-        @media (max-width: 600px) {
-            .content.shifted {
-                margin-left: 0;
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            td {
+                position: relative;
+                padding-left: 50%;
+            }
+
+            td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 15px;
+                width: 45%;
+                font-weight: bold;
+            }
+
+            th {
+                display: none;
             }
         }
     </style>
@@ -88,13 +137,13 @@
 </div>
 
 <div id="sidebar" class="sidebar">
-    <a th:href="@{/gerente/home}">Início</a>
-    <a th:href="@{/gerente/perfil}">Perfil</a>
-    <a th:href="@{/gerente/funcionarios}">Funcionários</a>
-    <a th:href="@{/gerente/stock}">Stock</a>
-    <a th:href="@{/gerente/fornecedor}">Fornecedor</a>
-    <a th:href="@{/gerente/projetos}">Projetos</a>
-    <a th:href="@{/funcionario/logout}" style="color: red;">Terminar sessão</a>
+    <a th:href="@{/gerente/home}">🏠 Início</a>
+    <a th:href="@{/gerente/perfil}">👤 Perfil</a>
+    <a th:href="@{/gerente/funcionarios}">👥 Funcionários</a>
+    <a th:href="@{/gerente/stock}">📦 Stock</a>
+    <a th:href="@{/gerente/fornecedor}">🏢 Fornecedor</a>
+    <a th:href="@{/gerente/projetos}">📋 Projetos</a>
+    <a th:href="@{/funcionario/logout}" class="logout">🚪 Terminar sessão</a>
 </div>
 
 <div id="content" class="content">
@@ -112,11 +161,11 @@
         </thead>
         <tbody>
         <tr th:each="p : ${pagamentos}">
-            <td th:text="${p.id}"></td>
-            <td th:text="${p.idforn.nomefornecedor}"></td>
-            <td th:text="${p.valor}"></td>
-            <td th:text="${p.dtfatura}"></td>
-            <td th:text="${p.dtpagamento}"></td>
+            <td th:text="${p.id}" data-label="ID"></td>
+            <td th:text="${p.idforn.nomefornecedor}" data-label="Fornecedor"></td>
+            <td th:text="${p.valor}" data-label="Valor (€)"></td>
+            <td th:text="${p.dtfatura}" data-label="Data Fatura"></td>
+            <td th:text="${p.dtpagamento}" data-label="Data Pagamento"></td>
         </tr>
         </tbody>
     </table>
@@ -131,3 +180,4 @@
 
 </body>
 </html>
+<!-- Compare this snippet from src/main/resources/templates/listar-pagamentos-fornecedores.html: -->

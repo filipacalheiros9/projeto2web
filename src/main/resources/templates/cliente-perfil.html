@@ -6,8 +6,9 @@
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f4f6f8;
+            min-height: 100vh;
         }
 
         .topbar {
@@ -34,38 +35,105 @@
             left: -250px;
             width: 250px;
             height: 100%;
-            background-color: #ffffff;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.15);
+            padding: 30px 20px;
             box-sizing: border-box;
             transition: left 0.3s ease;
             z-index: 1000;
+            border-right: 3px solid #7ba3d8;
         }
 
         .sidebar.open {
             left: 0;
         }
 
+        .sidebar-header {
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #7ba3d8;
+            margin-bottom: 5px;
+        }
+
         .sidebar a {
-            display: block;
-            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 12px 16px;
             color: #333;
             text-decoration: none;
             font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
         }
 
         .sidebar a:hover {
             color: #7ba3d8;
+            background-color: #f1f5f9;
+            border-left-color: #7ba3d8;
+            transform: translateX(5px);
+        }
+
+        .sidebar a.logout {
+            color: #dc2626;
+            margin-top: 20px;
+            border: 1px solid #fee2e2;
+        }
+
+        .sidebar a.logout:hover {
+            background-color: #fef2f2;
+            border-left-color: #dc2626;
         }
 
         .content {
             padding: 40px;
-            margin-left: 0;
             transition: margin-left 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .content.shifted {
             margin-left: 250px;
+        }
+
+        .profile-container {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-header .avatar {
+            font-size: 48px;
+            color: #fff;
+            background: #7ba3d8;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            margin: 0 auto 10px;
+        }
+
+        .profile-header h2 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #2c3e50;
         }
 
         .form-group {
@@ -73,58 +141,87 @@
         }
 
         label {
+            font-weight: 600;
             display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
+            color: #374151;
         }
 
         input, select {
             width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            background-color: #f9fafb;
             font-size: 16px;
+            transition: 0.3s;
         }
 
-        button {
-            padding: 12px 20px;
-            background-color: #7ba3d8;
-            border: none;
-            color: white;
-            border-radius: 8px;
-            cursor: pointer;
+        input:focus, select:focus {
+            border-color: #7ba3d8;
+            outline: none;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(123, 163, 216, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
             font-size: 16px;
+            font-weight: bold;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
             margin-top: 10px;
         }
 
-        button:hover {
-            background-color: #6b93c8;
+        .btn-update {
+            background-color: #7ba3d8;
+            color: white;
         }
 
-        .delete-button {
-            background-color: #d9534f;
-            margin-left: 10px;
+        .btn-update:hover {
+            background-color: #5a85c1;
         }
 
-        .mensagem {
-            margin-top: 15px;
-            padding: 12px;
-            border-radius: 8px;
+        .btn-delete {
+            background-color: #e53e3e;
+            color: white;
         }
 
-        .mensagem.sucesso {
-            background-color: #d4edda;
-            color: #155724;
+        .btn-delete:hover {
+            background-color: #c53030;
         }
 
-        .mensagem.erro {
-            background-color: #f8d7da;
-            color: #721c24;
+        .message {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .sucesso {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .erro {
+            background-color: #fee2e2;
+            color: #b91c1c;
         }
 
         @media (max-width: 600px) {
-            .content.shifted {
-                margin-left: 0;
+            .content {
+                padding: 20px;
+            }
+
+            .profile-container {
+                padding: 30px 20px;
+            }
+
+            .profile-header h2 {
+                font-size: 22px;
             }
         }
     </style>
@@ -132,10 +229,13 @@
 <body>
 
 <div id="sidebar" class="sidebar">
-    <a th:href="@{/cliente/home}">Início</a>
-    <a th:href="@{/cliente/perfil}">Perfil</a>
-    <a th:href="@{/cliente/projetos}">Projetos</a>
-    <a th:href="@{/cliente/logout}" style="color: red;">Terminar sessão</a>
+    <div class="sidebar-header">
+        <div class="sidebar-title">Menu Cliente</div>
+    </div>
+    <a th:href="@{/cliente/home}">🏠 Início</a>
+    <a th:href="@{/cliente/perfil}">👤 Perfil</a>
+    <a th:href="@{/cliente/projetos}">📁 Projetos</a>
+    <a th:href="@{/cliente/logout}" class="logout">🚪 Terminar sessão</a>
 </div>
 
 <div class="topbar">
@@ -144,61 +244,65 @@
 </div>
 
 <div id="content" class="content">
-    <h1>Perfil do Cliente</h1>
-
-    <form th:action="@{/cliente/perfil}" method="post" th:object="${cliente}">
-        <div class="form-group">
-            <label>Nome</label>
-            <input type="text" th:field="*{nomecliente}" required>
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="avatar">👤</div>
+            <h2>Perfil do Cliente</h2>
         </div>
 
-        <div class="form-group">
-            <label>Telefone</label>
-            <input type="text" th:field="*{telefonecliente}" required>
-        </div>
+        <form th:action="@{/cliente/perfil}" method="post" th:object="${cliente}">
+            <div class="form-group">
+                <label>Nome</label>
+                <input type="text" th:field="*{nomecliente}" required>
+            </div>
 
-        <div class="form-group">
-            <label>Rua</label>
-            <input type="text" th:field="*{ruacliente}" required>
-        </div>
+            <div class="form-group">
+                <label>Telefone</label>
+                <input type="text" th:field="*{telefonecliente}" required>
+            </div>
 
-        <div class="form-group">
-            <label>Número da porta</label>
-            <input type="number" th:field="*{nportacliente}" required>
-        </div>
+            <div class="form-group">
+                <label>Rua</label>
+                <input type="text" th:field="*{ruacliente}" required>
+            </div>
 
-        <div class="form-group">
-            <label>NIF</label>
-            <input type="text" th:field="*{nifcliente}" required>
-        </div>
+            <div class="form-group">
+                <label>Número da porta</label>
+                <input type="number" th:field="*{nportacliente}" required>
+            </div>
 
-        <div class="form-group">
-            <label>Código Postal</label>
-            <select th:field="*{codpostalcli.codpostalcliente}" required>
-                <option th:each="codigo : ${codigosPostais}"
-                        th:value="${codigo.codpostalcliente}"
-                        th:text="${codigo.codpostalcliente + ' - ' + codigo.localidade}">
-                </option>
-            </select>
-        </div>
+            <div class="form-group">
+                <label>NIF</label>
+                <input type="text" th:field="*{nifcliente}" required>
+            </div>
 
-        <button type="submit">Atualizar</button>
-    </form>
+            <div class="form-group">
+                <label>Código Postal</label>
+                <select th:field="*{codpostalcli.codpostalcliente}" required>
+                    <option th:each="codigo : ${codigosPostais}"
+                            th:value="${codigo.codpostalcliente}"
+                            th:text="${codigo.codpostalcliente + ' - ' + codigo.localidade}">
+                    </option>
+                </select>
+            </div>
 
-    <form th:action="@{/cliente/eliminar}" method="post" onsubmit="return confirm('Tem a certeza que deseja eliminar a sua conta? Esta ação é irreversível.')">
-        <button type="submit" class="delete-button">Eliminar Conta</button>
-    </form>
+            <button type="submit" class="btn btn-update">Atualizar Perfil</button>
+        </form>
 
-    <div th:if="${sucesso}" class="mensagem sucesso" th:text="${sucesso}"></div>
-    <div th:if="${erro}" class="mensagem erro" th:text="${erro}"></div>
+        <form th:action="@{/cliente/eliminar}" method="post"
+              onsubmit="return confirm('Tem a certeza que deseja eliminar a sua conta? Esta ação é irreversível.')">
+            <button type="submit" class="btn btn-delete">Eliminar Conta</button>
+        </form>
+
+        <div th:if="${sucesso}" class="message sucesso" th:text="${sucesso}"></div>
+        <div th:if="${erro}" class="message erro" th:text="${erro}"></div>
+    </div>
 </div>
 
 <script>
     function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        const content = document.getElementById('content');
-        sidebar.classList.toggle('open');
-        content.classList.toggle('shifted');
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('content').classList.toggle('shifted');
     }
 </script>
 

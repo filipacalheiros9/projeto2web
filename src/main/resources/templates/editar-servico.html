@@ -34,34 +34,70 @@
             left: -250px;
             width: 250px;
             height: 100%;
-            background-color: #ffffff;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.15);
+            padding: 30px 20px;
             box-sizing: border-box;
             transition: left 0.3s ease;
             z-index: 1000;
+            border-right: 3px solid #7ba3d8;
         }
 
         .sidebar.open {
             left: 0;
         }
 
+        .sidebar-header {
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #7ba3d8;
+            margin-bottom: 5px;
+        }
+
         .sidebar a {
-            display: block;
-            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 12px 16px;
             color: #333;
             text-decoration: none;
             font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
         }
 
         .sidebar a:hover {
             color: #7ba3d8;
+            background-color: #f1f5f9;
+            border-left-color: #7ba3d8;
+            transform: translateX(5px);
+        }
+
+        .sidebar a.logout {
+            color: #dc2626;
+            margin-top: 20px;
+            border: 1px solid #fee2e2;
+        }
+
+        .sidebar a.logout:hover {
+            background-color: #fef2f2;
+            border-left-color: #dc2626;
         }
 
         .content {
             padding: 40px;
             margin-left: 0;
             transition: margin-left 0.3s ease;
+            display: flex;
+            justify-content: center;
         }
 
         .content.shifted {
@@ -71,9 +107,17 @@
         form {
             background: white;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
             max-width: 600px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2d3748;
+            font-size: 26px;
+            margin-bottom: 25px;
         }
 
         .form-group {
@@ -81,9 +125,9 @@
         }
 
         label {
-            font-weight: bold;
+            font-weight: 500;
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
 
         input, select {
@@ -95,33 +139,37 @@
 
         button {
             padding: 15px 25px;
-            background-color: #7ba3d8;
+            background: linear-gradient(135deg, #7ba3d8 0%, #5a8bc4 100%);
             color: white;
             border: none;
             border-radius: 10px;
             font-size: 16px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
         }
 
         button:hover {
-            background-color: #6b93c8;
+            background: linear-gradient(135deg, #6b93c8 0%, #4f78b0 100%);
         }
 
         .alert {
             padding: 15px;
             margin-bottom: 20px;
             border-radius: 6px;
+            text-align: center;
+            font-weight: 500;
         }
 
         .alert-success {
-            background-color: #d4edda;
-            color: #155724;
+            background-color: #d1fae5;
+            color: #065f46;
         }
 
         .alert-error {
-            background-color: #f8d7da;
-            color: #721c24;
+            background-color: #fee2e2;
+            color: #991b1b;
         }
 
         @media (max-width: 600px) {
@@ -134,10 +182,13 @@
 <body>
 
 <div id="sidebar" class="sidebar">
-    <a th:href="@{/funcionario2/home}">Início</a>
-    <a th:href="@{/funcionario2/stock}">Stock</a>
-    <a th:href="@{/funcionario2/cliente}">Cliente</a>
-    <a th:href="@{/funcionario/logout}" style="color: red;">Terminar sessão</a>
+    <div class="sidebar-header">
+        <div class="sidebar-title">Menu Funcionário</div>
+    </div>
+    <a th:href="@{/funcionario2/home}">🏠 Início</a>
+    <a th:href="@{/funcionario2/stock}">📦 Stock</a>
+    <a th:href="@{/funcionario2/cliente}">👥 Cliente</a>
+    <a th:href="@{/funcionario/logout}" class="logout">🚪 Terminar sessão</a>
 </div>
 
 <div class="topbar">
@@ -146,36 +197,37 @@
 </div>
 
 <div id="content" class="content">
-    <h1>Editar Serviço</h1>
-
-    <div th:if="${mensagemSucesso}" class="alert alert-success" th:text="${mensagemSucesso}"></div>
-    <div th:if="${mensagemErro}" class="alert alert-error" th:text="${mensagemErro}"></div>
-
     <form th:action="@{/funcionario2/cliente/editar-servico}" method="post">
+        <h1>Editar Serviço</h1>
+
+        <div th:if="${mensagemSucesso}" class="alert alert-success" th:text="${mensagemSucesso}"></div>
+        <div th:if="${mensagemErro}" class="alert alert-error" th:text="${mensagemErro}"></div>
+
         <div class="form-group">
-            <label for="servicoId">ID do Serviço</label>
+            <label for="servicoId">Selecionar Serviço</label>
             <select name="servicoId" id="servicoId" required>
                 <option th:each="s : ${servicos}" th:value="${s.id}" th:text="'Serviço #' + ${s.id}"></option>
             </select>
         </div>
+
         <div class="form-group">
             <label for="estado">Novo Estado</label>
             <input type="text" name="estado" id="estado" placeholder="Insira novo estado" required>
         </div>
+
         <div class="form-group">
-            <label for="preco">Novo Preço</label>
+            <label for="preco">Novo Preço (€)</label>
             <input type="number" name="preco" id="preco" step="0.01" placeholder="Insira novo preço">
         </div>
+
         <button type="submit">Atualizar Serviço</button>
     </form>
 </div>
 
 <script>
     function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        const content = document.getElementById('content');
-        sidebar.classList.toggle('open');
-        content.classList.toggle('shifted');
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('content').classList.toggle('shifted');
     }
 </script>
 

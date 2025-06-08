@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <title>Estado do Projeto</title>
     <style>
-        body { margin: 0; font-family: Arial, sans-serif; background: #f4f6f8; }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
         .topbar {
             background-color: #7ba3d8;
             padding: 15px 20px;
@@ -12,64 +16,131 @@
             justify-content: space-between;
             color: white;
         }
-        .menu-icon { font-size: 24px; cursor: pointer; }
-        .logo { height: 40px; }
-
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .logo {
+            height: 40px;
+        }
         .sidebar {
             position: fixed;
             top: 0;
             left: -250px;
             width: 250px;
             height: 100%;
-            background-color: #ffffff;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+            padding: 30px 20px;
             box-sizing: border-box;
             transition: left 0.3s ease;
             z-index: 1000;
+            border-right: 3px solid #7ba3d8;
         }
-        .sidebar.open { left: 0; }
+        .sidebar.open {
+            left: 0;
+        }
+        .sidebar-header {
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e2e8f0;
+            text-align: center;
+        }
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #7ba3d8;
+        }
         .sidebar a {
-            display: block;
-            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 12px 16px;
             color: #333;
             text-decoration: none;
             font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
         }
-        .sidebar a:hover { color: #7ba3d8; }
-
+        .sidebar a:hover {
+            color: #7ba3d8;
+            background-color: #f1f5f9;
+            border-left-color: #7ba3d8;
+            transform: translateX(5px);
+        }
+        .sidebar a.logout {
+            color: #dc2626;
+            margin-top: 20px;
+            border: 1px solid #fee2e2;
+        }
+        .sidebar a.logout:hover {
+            background-color: #fef2f2;
+            border-left-color: #dc2626;
+        }
         .content {
             padding: 40px;
             display: flex;
             justify-content: center;
             transition: margin-left 0.3s ease;
+            margin-left: 0;
         }
-
-        .content.shifted { margin-left: 250px; }
-
-        .form-container {
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            width: 100%;
+        .content.shifted {
+            margin-left: 250px;
+        }
+        .form-card {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
             max-width: 500px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        select, button {
             width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            border-top: 5px solid #7ba3d8;
         }
-
+        .form-card h2 {
+            margin-top: 0;
+            color: #2d3748;
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        select, button {
+            padding: 14px;
+            margin-bottom: 20px;
+            width: 100%;
+            border: 1px solid #cbd5e0;
+            border-radius: 10px;
+            font-size: 15px;
+            background: #fff;
+        }
+        button {
+            background: linear-gradient(135deg, #7ba3d8 0%, #5a8bc4 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background: #5a8bc4;
+            box-shadow: 0 6px 18px rgba(123, 163, 216, 0.3);
+        }
         .estado {
             font-size: 18px;
             color: #333;
             text-align: center;
             margin-top: 20px;
+        }
+        @media (max-width: 600px) {
+            .content {
+                padding: 20px;
+            }
+            .form-card {
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
@@ -81,14 +152,17 @@
 </div>
 
 <div id="sidebar" class="sidebar">
-    <a th:href="@{/cliente/home}">Início</a>
-    <a th:href="@{/cliente/perfil}">Perfil</a>
-    <a th:href="@{/cliente/projetos}">Projetos</a>
-    <a th:href="@{/cliente/logout}" style="color: red;">Terminar sessão</a>
+    <div class="sidebar-header">
+        <div class="sidebar-title">Menu Cliente</div>
+    </div>
+    <a th:href="@{/cliente/home}">🏠 Início</a>
+    <a th:href="@{/cliente/perfil}">👤 Perfil</a>
+    <a th:href="@{/cliente/projetos}">📁 Projetos</a>
+    <a th:href="@{/cliente/logout}" class="logout">🚪 Terminar sessão</a>
 </div>
 
 <div id="content" class="content">
-    <div class="form-container">
+    <div class="form-card">
         <h2>Ver Estado do Projeto</h2>
 
         <form th:action="@{/cliente/projetos/estado}" method="get">

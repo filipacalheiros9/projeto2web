@@ -34,28 +34,62 @@
             left: -250px;
             width: 250px;
             height: 100%;
-            background-color: #ffffff;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.15);
+            padding: 30px 20px;
             box-sizing: border-box;
             transition: left 0.3s ease;
             z-index: 1000;
+            border-right: 3px solid #7ba3d8;
         }
 
         .sidebar.open {
             left: 0;
         }
 
+        .sidebar-header {
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #7ba3d8;
+            margin-bottom: 5px;
+        }
+
         .sidebar a {
-            display: block;
-            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 12px 16px;
             color: #333;
             text-decoration: none;
             font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
         }
 
         .sidebar a:hover {
             color: #7ba3d8;
+            background-color: #f1f5f9;
+            border-left-color: #7ba3d8;
+            transform: translateX(5px);
+        }
+
+        .sidebar a.logout {
+            color: #dc2626;
+            margin-top: 20px;
+            border: 1px solid #fee2e2;
+        }
+
+        .sidebar a.logout:hover {
+            background-color: #fef2f2;
+            border-left-color: #dc2626;
         }
 
         .content {
@@ -70,64 +104,93 @@
 
         .form-container {
             background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            max-width: 500px;
+            padding: 40px;
+            border-radius: 16px;
+            max-width: 600px;
             margin: auto;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 28px;
+            color: #2d3748;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
 
         input, select {
             width: 100%;
-            padding: 10px;
-            margin-top: 5px;
+            padding: 12px;
             margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 16px;
         }
 
         button {
-            padding: 10px 20px;
-            background-color: #7ba3d8;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #7ba3d8 0%, #5a8bc4 100%);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
             cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(123, 163, 216, 0.3);
         }
 
         button:hover {
-            background-color: #5a85c4;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(123, 163, 216, 0.4);
+        }
+
+        .alert-success, .alert-error {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 500;
         }
 
         .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #c3e6cb;
-            border-radius: 5px;
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
         }
 
         .alert-error {
-            background-color: #f8d7da;
-            color: #721c24;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #f5c6cb;
-            border-radius: 5px;
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #f87171;
+        }
+
+        @media (max-width: 600px) {
+            .content.shifted {
+                margin-left: 0;
+            }
         }
     </style>
 </head>
 <body>
 
 <div id="sidebar" class="sidebar">
-    <a th:href="@{/gerente/home}">Início</a>
-    <a th:href="@{/gerente/perfil}">Perfil</a>
-    <a th:href="@{/gerente/funcionarios}">Funcionários</a>
-    <a th:href="@{/gerente/stock}">Stock</a>
-    <a th:href="@{/gerente/fornecedor}">Fornecedor</a>
-    <a th:href="@{/gerente/projetos}">Projetos</a>
-    <a th:href="@{/funcionario/logout}" style="color: red;">Terminar sessão</a>
+    <div class="sidebar-header">
+        <div class="sidebar-title">Menu Principal</div>
+    </div>
+    <a th:href="@{/gerente/home}">🏠 Início</a>
+    <a th:href="@{/gerente/perfil}">👤 Perfil</a>
+    <a th:href="@{/gerente/funcionarios}">👥 Funcionários</a>
+    <a th:href="@{/gerente/stock}">📦 Stock</a>
+    <a th:href="@{/gerente/fornecedor}">🏢 Fornecedor</a>
+    <a th:href="@{/gerente/projetos}">📋 Projetos</a>
+    <a th:href="@{/funcionario/logout}" class="logout">🚪 Terminar sessão</a>
 </div>
 
 <div class="topbar">
@@ -140,7 +203,6 @@
         <h2>Adicionar Funcionário</h2>
 
         <div th:if="${sucesso}" class="alert-success" th:text="${sucesso}"></div>
-
         <div th:if="${erro}" class="alert-error" th:text="${erro}"></div>
 
         <form th:action="@{/gerente/funcionarios/adicionar}" method="post" th:object="${funcionario}">
@@ -159,7 +221,7 @@
                 <option th:each="cargo : ${cargos}" th:value="${cargo.id}" th:text="${cargo.cargo}"></option>
             </select>
 
-            <button type="submit">Adicionar</button>
+            <button type="submit">Adicionar Funcionário</button>
         </form>
     </div>
 </div>

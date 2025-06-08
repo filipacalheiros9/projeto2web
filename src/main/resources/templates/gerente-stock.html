@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Gerir Stock</title>
+    <title>Gestão de Stock</title>
     <style>
         body {
             margin: 0;
@@ -34,28 +34,62 @@
             left: -250px;
             width: 250px;
             height: 100%;
-            background-color: #ffffff;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.15);
+            padding: 30px 20px;
             box-sizing: border-box;
             transition: left 0.3s ease;
             z-index: 1000;
+            border-right: 3px solid #7ba3d8;
         }
 
         .sidebar.open {
             left: 0;
         }
 
+        .sidebar-header {
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #7ba3d8;
+            margin-bottom: 5px;
+        }
+
         .sidebar a {
-            display: block;
-            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 12px 16px;
             color: #333;
             text-decoration: none;
             font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
         }
 
         .sidebar a:hover {
             color: #7ba3d8;
+            background-color: #f1f5f9;
+            border-left-color: #7ba3d8;
+            transform: translateX(5px);
+        }
+
+        .sidebar a.logout {
+            color: #dc2626;
+            margin-top: 20px;
+            border: 1px solid #fee2e2;
+        }
+
+        .sidebar a.logout:hover {
+            background-color: #fef2f2;
+            border-left-color: #dc2626;
         }
 
         .content {
@@ -68,55 +102,104 @@
             margin-left: 250px;
         }
 
-        .button-container {
-            margin-top: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            max-width: 300px;
+        .page-header h1 {
+            font-size: 32px;
+            color: #2d3748;
+            margin-bottom: 30px;
+            font-weight: 600;
         }
 
-        button {
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1000px;
+        }
+
+        .action-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .action-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 15px 25px;
+            height: 4px;
+            background: linear-gradient(90deg, #7ba3d8, #5a8bc4);
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(123, 163, 216, 0.2);
+            border-color: #7ba3d8;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 12px;
+        }
+
+        .card-description {
+            font-size: 15px;
+            color: #718096;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .action-button {
+            width: 100%;
+            padding: 14px 22px;
             font-size: 16px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             border: none;
-            border-radius: 10px;
-            background: #7ba3d8;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #7ba3d8 0%, #5a8bc4 100%);
             color: white;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(123, 163, 216, 0.3);
+            position: relative;
         }
 
-        button:hover {
-            background: #6b93c8;
+        .action-button:hover {
             transform: translateY(-2px);
-        }
-
-        button:active {
-            transform: translateY(0);
+            box-shadow: 0 8px 25px rgba(123, 163, 216, 0.4);
         }
 
         @media (max-width: 600px) {
             .content.shifted {
                 margin-left: 0;
             }
+
+            .button-container {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
 
-<!-- Sidebar -->
 <div id="sidebar" class="sidebar">
-    <a th:href="@{/gerente/home}">Início</a>
-    <a th:href="@{/gerente/perfil}">Perfil</a>
-    <a th:href="@{/gerente/funcionarios}">Funcionários</a>
-    <a th:href="@{/gerente/stock}">Stock</a>
-    <a th:href="@{/gerente/fornecedor}">Fornecedor</a>
-    <a th:href="@{/gerente/projetos}">Projetos</a>
-    <a th:href="@{/funcionario/logout}" style="color: red;">Terminar sessão</a>
+    <div class="sidebar-header">
+        <div class="sidebar-title">Menu Principal</div>
+    </div>
+    <a th:href="@{/gerente/home}">🏠 Início</a>
+    <a th:href="@{/gerente/perfil}">👤 Perfil</a>
+    <a th:href="@{/gerente/funcionarios}">👥 Funcionários</a>
+    <a th:href="@{/gerente/stock}">📦 Stock</a>
+    <a th:href="@{/gerente/fornecedor}">🏢 Fornecedor</a>
+    <a th:href="@{/gerente/projetos}">📋 Projetos</a>
+    <a th:href="@{/funcionario/logout}" class="logout">🚪 Terminar sessão</a>
 </div>
 
 <div class="topbar">
@@ -125,31 +208,66 @@
 </div>
 
 <div id="content" class="content">
-    <h1>Gestão de Stock</h1>
-    <p>Escolha uma ação abaixo:</p>
+    <div class="page-header">
+        <h1>Gestão de Stock</h1>
+    </div>
 
     <div class="button-container">
-        <form th:action="@{/encomendar}" method="get">
-            <button type="submit">Encomendar Material</button>
-        </form>
-        <form th:action="@{/cancelar-encomenda}" method="get">
-            <button type="submit">Cancelar Encomenda</button>
-        </form>
-        <form th:action="@{/listar-encomenda}" method="get">
-            <button type="submit">Listar Encomenda</button>
-        </form>
-        <form th:action="@{/listar-stock}" method="get">
-            <button type="submit">Listar Stock</button>
-        </form>
-        <form th:action="@{/adicionar-produto}" method="get">
-            <button type="submit">Adicionar Produto</button>
-        </form>
-        <form th:action="@{/remover-produto}" method="get">
-            <button type="submit">Remover Produto</button>
-        </form>
-        <form th:action="@{/editar-produto}" method="get">
-            <button type="submit">Editar Produto</button>
-        </form>
+        <div class="action-card">
+            <div class="card-title">📦 Encomendar Material</div>
+            <div class="card-description">Solicite novos materiais ao fornecedor e mantenha o stock abastecido.</div>
+            <form th:action="@{/encomendar}" method="get">
+                <button type="submit" class="action-button">Encomendar</button>
+            </form>
+        </div>
+
+        <div class="action-card">
+            <div class="card-title">❌ Cancelar Encomenda</div>
+            <div class="card-description">Remova pedidos de encomenda que não são mais necessários ou foram cancelados.</div>
+            <form th:action="@{/cancelar-encomenda}" method="get">
+                <button type="submit" class="action-button">Cancelar</button>
+            </form>
+        </div>
+
+        <div class="action-card">
+            <div class="card-title">📋 Listar Encomendas</div>
+            <div class="card-description">Visualize todas as encomendas feitas recentemente com status e datas.</div>
+            <form th:action="@{/listar-encomenda}" method="get">
+                <button type="submit" class="action-button">Listar</button>
+            </form>
+        </div>
+
+        <div class="action-card">
+            <div class="card-title">📦 Listar Stock</div>
+            <div class="card-description">Veja o inventário completo e o estado atual de todos os materiais disponíveis.</div>
+            <form th:action="@{/listar-stock}" method="get">
+                <button type="submit" class="action-button">Visualizar Stock</button>
+            </form>
+        </div>
+
+        <div class="action-card">
+            <div class="card-title">➕ Adicionar Produto</div>
+            <div class="card-description">Inclua novos produtos no inventário com suas respetivas quantidades e descrição.</div>
+            <form th:action="@{/adicionar-produto}" method="get">
+                <button type="submit" class="action-button">Adicionar</button>
+            </form>
+        </div>
+
+        <div class="action-card">
+            <div class="card-title">❌ Remover Produto</div>
+            <div class="card-description">Retire produtos que já não são utilizados ou que saíram de linha do sistema.</div>
+            <form th:action="@{/remover-produto}" method="get">
+                <button type="submit" class="action-button">Remover</button>
+            </form>
+        </div>
+
+        <div class="action-card">
+            <div class="card-title">✏️ Editar Produto</div>
+            <div class="card-description">Atualize os detalhes de produtos existentes, como nome, quantidade ou fornecedor.</div>
+            <form th:action="@{/editar-produto}" method="get">
+                <button type="submit" class="action-button">Editar</button>
+            </form>
+        </div>
     </div>
 </div>
 
