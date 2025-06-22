@@ -200,31 +200,49 @@
         <div class="action-card">
             <div class="card-title">➕ Adicionar Tipo de Projeto</div>
             <div class="card-description">Crie um novo tipo de projeto para organizar as categorias disponíveis.</div>
+            <form th:action="@{/adicionar-tipo-projeto}" method="get">
+                <button type="submit" class="action-button">Adicionar</button>
+            </form>
         </div>
 
         <div class="action-card">
             <div class="card-title">❌ Remover Tipo de Projeto</div>
             <div class="card-description">Exclua um tipo de projeto que já não esteja em uso.</div>
+            <form th:action="@{/remover-tipo-projeto}" method="get">
+                <button type="submit" class="action-button">Remover</button>
+            </form>
         </div>
 
         <div class="action-card">
             <div class="card-title">📋 Listar Tipos de Projetos</div>
             <div class="card-description">Visualize todos os tipos de projetos cadastrados no sistema.</div>
+            <form th:action="@{/listar-tipos-projetos}" method="get">
+                <button type="submit" class="action-button">Listar</button>
+            </form>
         </div>
 
         <div class="action-card">
             <div class="card-title">🖨️ Adicionar Tipo Impressão</div>
             <div class="card-description">Registe um novo tipo de impressão disponível para os serviços.</div>
+            <form th:action="@{/adicionar-tipo-impressao}" method="get">
+                <button type="submit" class="action-button">Adicionar</button>
+            </form>
         </div>
 
         <div class="action-card">
             <div class="card-title">❌ Remover Tipo Impressão</div>
             <div class="card-description">Remova tipos de impressão não utilizados.</div>
+            <form th:action="@{/remover-tipo-impressao}" method="get">
+                <button type="submit" class="action-button">Remover</button>
+            </form>
         </div>
 
         <div class="action-card">
             <div class="card-title">📜 Listar Tipos Impressões</div>
             <div class="card-description">Veja todas as opções de tipos de impressão disponíveis.</div>
+            <form th:action="@{/listar-tipos-impressoes}" method="get">
+                <button type="submit" class="action-button">Listar</button>
+            </form>
         </div>
     </div>
 </div>
