@@ -1,4 +1,4 @@
-# Projeto2Web
+# Projeto_II_web
 
 Aplicação web em **Spring Boot** para gestão de uma gráfica, com áreas distintas para **cliente**, **funcionário** e **gerente**.
 
