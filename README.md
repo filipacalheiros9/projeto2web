@@ -70,7 +70,7 @@ A aplicação ficará disponível em:
 - `GET /cliente/projetos` - gestão de projetos
 - `GET /cliente/perfil` - perfil do cliente
 
-### Funcion�rio
+### Funcionário
 
 - `GET /funcionario` - login funcionário
 - `GET /funcionario2/home` - dashboard funcionário
